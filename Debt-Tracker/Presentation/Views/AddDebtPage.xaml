@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="using:Presentation.ViewModels"
+             x:Class="Presentation.Views.AddDebtPage"
+             Title="Add Debt" 
+             x:DataType="viewModels:AddDebtViewModel">
+    <StackLayout Padding="10">
+        <Label Text="Creditor" />
+        <Entry Text="{Binding Creditor}" Placeholder="Enter creditor name" />
+
+        <Label Text="Amount" />
+        <Entry Text="{Binding Amount}" Keyboard="Numeric" Placeholder="Enter amount" />
+
+        <Label Text="{Binding ErrorMessage}" TextColor="Red" IsVisible="{Binding ErrorMessage, StringFormat='{0}'}" />
+
+        <Button Text="Save" Command="{Binding AddDebtCommand}" />
+    </StackLayout>
+</ContentPage>
