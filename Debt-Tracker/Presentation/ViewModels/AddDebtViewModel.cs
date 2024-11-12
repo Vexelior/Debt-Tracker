@@ -28,6 +28,17 @@ namespace Presentation.ViewModels
             }
         }
 
+        private bool _showError;
+        public bool ShowError
+        {
+            get => _showError;
+            set
+            {
+                _showError = value;
+                OnPropertyChanged();
+            }
+        }
+
         public AddDebtViewModel()
         {
         }
@@ -56,6 +67,10 @@ namespace Presentation.ViewModels
 
                 await _debtRepository.AddAsync(debt);
                 ErrorMessage = string.Empty;
+                ShowError = false;
+                MessagingCenter.Send(this, "DebtModified");
+
+                await App.Current.MainPage.Navigation.PopAsync();
             }
             catch (Exception ex)
             {

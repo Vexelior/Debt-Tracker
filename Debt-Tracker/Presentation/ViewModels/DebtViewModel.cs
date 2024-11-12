@@ -26,24 +26,21 @@ namespace Presentation.ViewModels
         public DebtViewModel(IDebtRepository debtRepository)
         {
             _debtRepository = debtRepository;
-            LoadDebts();
+            LoadDebtsAsync();
         }
 
-        private async void LoadDebts()
+        public async void LoadDebtsAsync()
         {
+            Debts.Clear();
             var debts = await _debtRepository.GetAllAsync();
-
-            var enumerableDebts = debts.ToList();
-            if (!enumerableDebts.Any())
-            {
-                ErrorMessage = "No debts found.";
-                return;
-            }
-
-            foreach (var debt in enumerableDebts)
+            foreach (var debt in debts)
             {
                 Debts.Add(debt);
             }
+
+            OnPropertyChanged(nameof(Debts));
+
+            ErrorMessage = Debts.Count == 0 ? "No debts found. Click the '+' button to add a new debt." : string.Empty;
         }
     }
 }
