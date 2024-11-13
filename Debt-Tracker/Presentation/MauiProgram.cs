@@ -20,6 +20,9 @@ namespace Presentation
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                    fonts.AddFont("Font Awesome 6 Free-Solid-900.otf", "FASolid");
+                    fonts.AddFont("Minion.otf", "Minion");
+                    fonts.AddFont("Maven.ttf", "Maven");
                 });
 
             builder.Logging.AddDebug();
