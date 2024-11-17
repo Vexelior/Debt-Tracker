@@ -7,6 +7,7 @@ import DebtList from '../components/DebtList.vue';
 import AddDebt from '../components/AddDebt.vue';
 import DebtDetail from '../components/DebtDetail.vue';
 import EditDebt from '../components/EditDebt.vue';
+import GraphsPage from '../components/GraphsPage.vue';
 
 const routes = [
   {
@@ -30,6 +31,11 @@ const routes = [
     name: 'edit-debt',
     component: EditDebt,
     props: true,
+  },
+  {
+    path: '/graphs',
+    name: 'GraphsPage',
+    component: GraphsPage,
   }
 ];
 

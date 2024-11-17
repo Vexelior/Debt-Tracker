@@ -14,7 +14,10 @@
     "@firebasegen/default-connector": "file:dataconnect-generated/js/default-connector",
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
+    "chart.js": "^4.4.6",
+    "chartjs": "^0.3.24",
     "vue": "^3.5.12",
+    "vue-chartjs": "^5.3.2",
     "vue-router": "^4.4.5"
   },
   "devDependencies": {
