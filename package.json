@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "lint": "eslint . --fix",
     "format": "prettier --write src/",
-    "deploy": "npm run build && gh-pages -d dist"
+    "deploy": "sh deploy.sh"
   },
   "dependencies": {
     "axios": "^1.7.7",
