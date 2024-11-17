@@ -15,6 +15,7 @@
     <ul class="list-group">
       <li v-for="debt in debts" :key="debt._id" class="list-group-item d-flex justify-content-between align-items-center">
         <span>{{ debt.creditor }}: {{ formattedAmount(debt.amount) }}</span>
+        <router-link :to="'/debt/' + debt._id" class="btn btn-dark btn-sm">View Details</router-link>
       </li>
     </ul>
   </div>

@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import DebtList from '../components/DebtList.vue';
 import AddDebt from '../components/AddDebt.vue';
+import DebtDetail from '../components/DebtDetail.vue';
 
 const routes = [
   {
@@ -13,10 +14,16 @@ const routes = [
     name: 'add-debt',
     component: AddDebt,
   },
+  {
+    path: '/debt/:id', 
+    name: 'debt-detail',
+    component: DebtDetail,
+    props: true, 
+  }
 ];
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL), // This is for Vite projects
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes,
 });
 
