@@ -2,25 +2,33 @@
   <div class="container">
     <div v-if="successMessage" class="alert alert-success alert-dismissible fade show mt-2" role="alert">
       {{ successMessage }}
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="clearMessage"></button>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="clearSuccessMessage"></button>
     </div>
 
     <div v-if="errorMessage" class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
       {{ errorMessage }}
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="clearMessage"></button>
     </div>
-
+    
     <h2 class="my-4">Debt List</h2>
-    <router-link to="/add-debt" class="btn btn-primary mb-2">Add New Debt</router-link>
-    <ul class="list-group">
-      <li v-for="debt in debts" :key="debt._id" class="list-group-item d-flex justify-content-end align-items-center">
-        <span>{{ debt.creditor }}: {{ formattedAmount(debt.amount) }}</span>
-        <div class="ms-auto">
-          <router-link :to="'/debt/' + debt._id" class="btn btn-dark btn-sm me-2">View Details</router-link>
-          <router-link :to="'/edit-debt/' + debt._id" class="btn btn-warning btn-sm">Edit</router-link>
+    <router-link to="/add-debt" class="btn btn-primary mb-4">Add New Debt</router-link>
+    
+    <div class="row">
+      <div v-for="debt in debts" :key="debt._id" class="col-md-4 mb-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title">{{ debt.creditor }}</h5>
+            <p class="card-text">
+              Amount: {{ formattedAmount(debt.amount) }}
+            </p>
+          </div>
+          <div class="card-footer text-end">
+            <router-link :to="`/debt/${debt._id}`" class="btn btn-dark btn-sm me-2">View</router-link>
+            <router-link :to="`/edit-debt/${debt._id}`" class="btn btn-primary btn-sm me-2">Edit</router-link>
+          </div>
         </div>
-      </li>
-    </ul>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -58,7 +66,9 @@ export default {
   },
   computed: {
     formattedAmount() {
-      return (value) => `$${parseFloat(value).toFixed(2)}`;
+      return function(value) {
+        return `$${parseFloat(value).toFixed(2)}`;
+      };
     },
   },
 };
