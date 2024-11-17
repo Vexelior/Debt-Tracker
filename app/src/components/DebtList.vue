@@ -9,10 +9,10 @@
       {{ errorMessage }}
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="clearMessage"></button>
     </div>
-    
+
     <h2 class="my-4">Debt List</h2>
     <router-link to="/add-debt" class="btn btn-primary mb-4">Add New Debt</router-link>
-    
+
     <div class="row">
       <div v-for="debt in debts" :key="debt._id" class="col-md-4 mb-4">
         <div class="card h-100">
@@ -20,6 +20,9 @@
             <h5 class="card-title">{{ debt.creditor }}</h5>
             <p class="card-text">
               Amount: {{ formattedAmount(debt.amount) }}
+              <span v-if="debt.percentageChange !== null && !isNaN(debt.percentageChange)" :class="{'text-success': debt.percentageChange > 0, 'text-danger': debt.percentageChange < 0}">
+                {{ formattedPercentageChange(debt.percentageChange) }}
+              </span>
             </p>
           </div>
           <div class="card-footer text-end">
@@ -46,6 +49,7 @@ export default {
   },
   async created() {
     await this.fetchDebts();
+    // Handling success and error messages passed via EventBus
     this.successMessage = EventBus.successMessage;
     this.errorMessage = EventBus.errorMessage;
     if (this.successMessage || this.errorMessage) {
@@ -56,8 +60,12 @@ export default {
   },
   methods: {
     async fetchDebts() {
-      const response = await axios.get('http://localhost:5000/api/debts');
-      this.debts = response.data;
+      try {
+        const response = await axios.get('http://localhost:5000/api/debts');
+        this.debts = response.data;
+      } catch (error) {
+        console.error('Error fetching debts:', error);
+      }
     },
     clearMessage() {
       this.successMessage = null;
@@ -68,6 +76,14 @@ export default {
     formattedAmount() {
       return function(value) {
         return `$${parseFloat(value).toFixed(2)}`;
+      };
+    },
+    formattedPercentageChange() {
+      return function(value) {
+        if (value !== null && !isNaN(value)) {
+          return `(${value.toFixed(2)}%)`; // Ensure value is a valid number before formatting
+        }
+        return ''; // Return an empty string if the value is not valid
       };
     },
   },

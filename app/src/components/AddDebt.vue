@@ -39,7 +39,8 @@ export default {
           creditor: this.creditor,
           amount: this.amount,
         });
-        if (response.status === 200) {
+        console.log(response);
+        if (response.status === 201) {
           this.$emit('debtAdded', response.data);
           EventBus.successMessage = 'Debt added successfully!';
           this.$router.push('/');
