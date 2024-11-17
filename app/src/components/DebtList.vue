@@ -1,10 +1,13 @@
-<!-- DebtList.vue -->
 <template>
   <div class="container">
-    <!-- Display Bootstrap success alert -->
     <div v-if="successMessage" class="alert alert-success alert-dismissible fade show mt-2" role="alert">
       {{ successMessage }}
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="clearSuccessMessage"></button>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="clearMessage"></button>
+    </div>
+
+    <div v-if="errorMessage" class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+      {{ errorMessage }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="clearMessage"></button>
     </div>
 
     <h2 class="my-4">Debt List</h2>
@@ -12,7 +15,6 @@
     <ul class="list-group">
       <li v-for="debt in debts" :key="debt._id" class="list-group-item d-flex justify-content-between align-items-center">
         <span>{{ debt.creditor }}: {{ formattedAmount(debt.amount) }}</span>
-        <button @click="deleteDebt(debt._id)" class="btn btn-danger btn-sm">Delete</button>
       </li>
     </ul>
   </div>
@@ -27,18 +29,21 @@ export default {
     return {
       debts: [],
       successMessage: null,
+      errorMessage: null,
     };
   },
   async created() {
     await this.fetchDebts();
     this.successMessage = EventBus.successMessage;
+    this.errorMessage = EventBus.errorMessage;
   },
   watch: {
     '$route'() {
       this.successMessage = EventBus.successMessage;
-      if (this.successMessage) {
+      this.errorMessage = EventBus.errorMessage;
+      if (this.successMessage || this.errorMessage) {
         setTimeout(() => {
-          this.clearSuccessMessage();
+          this.clearMessage();
         }, 5000);
       }
     },
@@ -52,9 +57,9 @@ export default {
       await axios.delete(`http://localhost:5000/api/debts/${id}`);
       await this.fetchDebts(); 
     },
-    clearSuccessMessage() {
-      this.successMessage = null;
+    clearMessage() {
       EventBus.successMessage = null;
+      EventBus.errorMessage = null;
     },
   },
   computed: {

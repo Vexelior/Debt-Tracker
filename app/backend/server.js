@@ -21,12 +21,28 @@ const debtSchema = new mongoose.Schema({
   amount: Number,
 });
 
-const Debt = mongoose.model('Debt', debtSchema);
+const Debt = mongoose.model('Debts', debtSchema);
 
 // Routes
 app.get('/api/debts', async (req, res) => {
   const debts = await Debt.find();
   res.json(debts);
+});
+
+app.get('/api/debts/:id', async (req, res) => {
+  const debt = await Debt.findById(req.params.id);
+  res.json(debt);
+});
+
+app.get('/api/debts/total', async (req, res) => {
+  const debts = await Debt.find();
+  const total = debts.reduce((acc, debt) => acc + debt.amount, 0);
+  res.json({ total });
+});
+
+app.put('/api/debts/:id', async (req, res) => {
+  await Debt.findByIdAndUpdate(req.params.id, req.body);
+  res.json({ message: 'Debt updated' });
 });
 
 app.post('/api/debts', async (req, res) => {

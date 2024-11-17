@@ -1,5 +1,9 @@
 <template>
   <div class="container">
+    <div v-if="errorMessage" class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+      {{ errorMessage }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="clearMessage"></button>
+    </div>
     <h2 class="my-4">Add Debt</h2>
     <form @submit.prevent="addDebt">
       <div class="mb-3">
@@ -25,20 +29,34 @@ export default {
     return {
       creditor: '',
       amount: null,
+      errorMessage: null,
     };
   },
   methods: {
     async addDebt() {
-      const response = await axios.post('http://localhost:5000/api/debts', {
-        creditor: this.creditor,
-        amount: this.amount,
-      });
-      this.$emit('debtAdded', response.data); // Emit the event after adding a debt
-      this.creditor = '';
-      this.amount = null;
-      EventBus.successMessage = 'Debt added successfully!';
-      this.$router.push('/');
+      try {
+        const response = await axios.post('http://localhost:5000/api/debts', {
+          creditor: this.creditor,
+          amount: this.amount,
+        });
+        if (response.status === 200) {
+          this.$emit('debtAdded', response.data);
+          EventBus.successMessage = 'Debt added successfully!';
+          this.$router.push('/');
+        } else {
+          this.errorMessage = 'Failed to add debt!';
+          this.clearMessage();
+        }
+      } catch (error) {
+        this.errorMessage = 'Failed to add debt! Please try again. ' + error.message;
+        this.clearMessage();
+      }
     },
+    clearMessage() {
+      setTimeout(() => {
+        this.errorMessage = null;
+      }, 5000);
+    }
   },
 };
 </script>
