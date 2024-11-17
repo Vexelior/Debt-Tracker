@@ -12,15 +12,17 @@
       </div>
       <div class="mb-3">
         <label for="amount" class="form-label">Amount</label>
-        <input id="amount" v-model.number="amount" type="number" class="form-control" placeholder="Amount" required />
+        <input id="amount" v-model.number="amount" type="number" class="form-control" placeholder="Amount" step=".01" required />
       </div>
       <div class="mb-3">
         <label for="notes" class="form-label">Notes</label>
         <textarea id="notes" v-model="notes" class="form-control" placeholder="Notes"></textarea>
       </div>
-      <button type="submit" class="btn btn-primary">Add Debt</button>
+      <div class="d-flex justify-content-start">
+        <button type="submit" class="btn btn-primary me-2">Add Debt</button>
+        <router-link to="/" class="btn btn-secondary">Back</router-link>
+      </div>
     </form>
-    <router-link to="/" class="btn btn-secondary mt-2">Go Back</router-link>
   </div>
 </template>
 

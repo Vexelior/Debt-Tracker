@@ -18,7 +18,7 @@ const debtSchema = new mongoose.Schema({
   notes: String,
   dateAdded: { type: Date, default: Date.now },
   dateLastEdit: { type: Date, default: Date.now },
-  percentageChange: { type: Number, default: null },
+  percentageChange: { type: Number, default: 0 },
 });
 
 const Debt = mongoose.model('Debts', debtSchema);

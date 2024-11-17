@@ -1,2 +1,175 @@
 @import './base.css';
 
+html {
+    position: relative;
+    min-height: 100%;}
+
+body {
+    font-family: 'Maven', sans-serif !important;
+    background-color: var(--tertiary) !important;
+    color: var(--black) !important;
+    margin-bottom: 100px !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--primary) !important;
+    font-family: 'Minion', sans-serif !important;
+}
+
+/* Navbar Styling */
+.navbar {
+    background-color: var(--primary) !important;
+}
+
+.navbar .navbar-brand {
+    color: var(--quaternary) !important;
+    font-weight: bold !important;
+}
+
+.navbar .navbar-nav .nav-link {
+    color: var(--quaternary) !important;
+}
+
+.navbar .navbar-nav .nav-link:hover {
+    color: var(--secondary) !important;
+}
+
+/* Button Styling */
+.btn-primary {
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+    color: var(--quaternary) !important;
+}
+
+.btn-primary:hover {
+    border-color: darken(var(--primary), 10%) !important;
+    color: var(--quaternary) !important;
+}
+
+.btn-secondary {
+    background-color: var(--secondary) !important;
+    border-color: var(--secondary) !important;
+    color: var(--quaternary) !important;
+}
+
+.btn-secondary:hover {
+    border-color: darken(var(--secondary), 10%) !important;
+    color: var(--quaternary) !important;
+}
+
+.btn-outline-primary {
+    color: var(--primary) !important;
+    border-color: var(--primary) !important;
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary) !important;
+    color: var(--quaternary) !important;
+}
+
+.btn-outline-secondary {
+    color: var(--secondary) !important;
+    border-color: var(--secondary) !important;
+}
+
+.btn-outline-secondary:hover {
+    background-color: var(--secondary) !important;
+    color: var(--quaternary) !important;
+}
+
+.btn-danger {
+    background-color: var(--danger) !important;
+    color: var(--quaternary) !important;
+}
+
+.btn-danger:hover {
+    border-color: darken(var(--danger), 10%) !important;
+    color: var(--quaternary) !important;
+}
+
+.btn-outline-danger {
+    color: var(--black) !important;
+    border-color: var(--danger) !important;
+}
+
+/* Cards */
+.card {
+    background-color: var(--quaternary) !important;
+    border: 1px solid var(--tertiary) !important;
+}
+
+.card-header {
+    background-color: var(--primary) !important;
+    color: var(--quaternary) !important;
+}
+
+.card-footer {
+    background-color: var(--dimgray) !important;
+    color: var(--black) !important;
+}
+
+.card-title {
+    color: var(--primary) !important;
+}
+
+.card-body {
+    color: var(--black) !important;
+}
+
+/* Custom form controls */
+.form-control {
+    border-color: var(--tertiary) !important;
+}
+
+.form-control:focus {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 0.25rem rgba(20, 33, 61, 0.25) !important;
+}
+
+/* Alerts */
+.alert-success {
+    background-color: var(--secondary) !important;
+    border-color: var(--secondary) !important;
+    color: var(--quaternary) !important;
+}
+
+.alert-danger {
+    background-color: var(--black) !important;
+    border-color: var(--black) !important;
+    color: var(--quaternary) !important;
+}
+
+/* Links */
+a {
+    color: var(--primary) !important;
+    text-decoration: none !important;
+}
+
+a:hover {
+    color: var(--secondary) !important;
+    text-decoration: none !important;
+}
+
+.navbar-toggler {
+    background-color: var(--secondary) !important;
+}
+
+p {
+    font-family: 'Maven', sans-serif !important;
+}
+
+/* Footer */
+footer {
+    background-color: var(--primary) !important;
+    color: var(--quaternary) !important;
+    padding: 1rem 0 !important;
+    text-align: center !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    position: absolute !important;
+}

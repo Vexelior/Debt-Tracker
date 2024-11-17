@@ -1,50 +1,66 @@
 <template>
-    <div class="container">
-      <h2 class="my-4">Debt Details</h2>
-      <div v-if="debt" class="card">
-        <div class="card-body">
-          <h5 class="card-title">{{ debt.creditor }}</h5>
-          <p class="card-text">
-            <strong>Amount:</strong> {{ formattedAmount }}<br>
-            <strong>Notes:</strong> {{ debt.notes }}
-          </p>
-          <router-link to="/" class="btn btn-secondary">Back</router-link>
-        </div>
-      </div>
-      <div v-else>
-        <p>Loading details...</p>
+  <div class="container">
+    <h2 class="my-4">Debt Details</h2>
+    <div v-if="debt" class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{ debt.creditor }}</h5>
+        <p class="card-text">
+          <strong>Amount:</strong> {{ formattedAmount }}<br>
+        </p>
+        <p class="card-text">
+          <strong>Notes:</strong> {{ debt.notes ? debt.notes : 'No current note.' }}
+        </p>
+        <p class="mb-3">
+          <strong>Date Added:</strong> {{ formattedDateAdded }}
+        </p>
+        <p class="mb-3">
+          <strong>Last Edit:</strong> {{ formattedDateAdded }}
+        </p>
+        <router-link to="/" class="btn btn-secondary">Back</router-link>
       </div>
     </div>
-  </template>
-  
-  <script>
-  import axios from 'axios';
-  
-  export default {
-    data() {
-      return {
-        debt: null,
-      };
+    <div v-else>
+      <p>Loading details...</p>
+    </div>
+  </div>
+</template>
+
+<script>
+import axios from 'axios';
+
+export default {
+  data() {
+    return {
+      debt: null,
+    };
+  },
+  async created() {
+    const debtId = this.$route.params.id;
+    await this.fetchDebtDetails(debtId);
+  },
+  methods: {
+    async fetchDebtDetails(debtId) {
+      try {
+        const response = await axios.get(`http://localhost:5000/api/debts/${debtId}`);
+        this.debt = response.data;
+      } catch (error) {
+        console.error("Error fetching debt details:", error);
+      }
     },
-    async created() {
-      const debtId = this.$route.params.id;
-      await this.fetchDebtDetails(debtId);
+  },
+  computed: {
+    formattedAmount() {
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+      }).format(this.debt.amount);
     },
-    methods: {
-      async fetchDebtDetails(debtId) {
-        try {
-          const response = await axios.get(`http://localhost:5000/api/debts/${debtId}`);
-          this.debt = response.data;
-        } catch (error) {
-          console.error("Error fetching debt details:", error);
-        }
-      },
+    formattedDateAdded() {
+      return new Date(this.debt.dateAdded).toLocaleDateString();
     },
-    computed: {
-      formattedAmount() {
-        return `$${parseFloat(this.debt.amount).toFixed(2)}`;
-      },
+    formattedDateLastEdit() {
+      return new Date(this.debt.dateLastEdit).toLocaleDateString();
     },
-  };
-  </script>
-  
+  },
+};
+</script>

@@ -11,7 +11,6 @@
     </div>
 
     <h2 class="my-4">Debt List</h2>
-    <router-link to="/add-debt" class="btn btn-primary mb-4">Add New Debt</router-link>
 
     <div class="row">
       <div v-for="debt in debts" :key="debt._id" class="col-md-4 mb-4">
@@ -19,14 +18,14 @@
           <div class="card-body">
             <h5 class="card-title">{{ debt.creditor }}</h5>
             <p class="card-text">
-              Amount: {{ formattedAmount(debt.amount) }}
+              <strong>Amount:</strong> {{ formattedAmount(debt.amount) }}
               <span v-if="debt.percentageChange !== null && !isNaN(debt.percentageChange)" :class="{'text-success': debt.percentageChange > 0, 'text-danger': debt.percentageChange < 0}">
                 {{ formattedPercentageChange(debt.percentageChange) }}
               </span>
             </p>
           </div>
           <div class="card-footer text-end">
-            <router-link :to="`/debt/${debt._id}`" class="btn btn-dark btn-sm me-2">View</router-link>
+            <router-link :to="`/debt/${debt._id}`" class="btn btn-secondary btn-sm me-2">View</router-link>
             <router-link :to="`/edit-debt/${debt._id}`" class="btn btn-primary btn-sm me-2">Edit</router-link>
           </div>
         </div>

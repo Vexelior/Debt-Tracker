@@ -9,7 +9,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="amount" class="form-label">Amount</label>
-                    <input type="number" class="form-control" id="amount" v-model="debt.amount" required />
+                    <input type="number" class="form-control" id="amount" step=".01" v-model="debt.amount" required />
                 </div>
                 <div class="mb-3">
                     <label for="notes" class="form-label">Notes</label>
