@@ -40,23 +40,11 @@ export default {
     await this.fetchDebts();
     this.successMessage = EventBus.successMessage;
     this.errorMessage = EventBus.errorMessage;
-
-    if (this.$route.query.successMessage || this.$route.query.errorMessage) {
-      this.successMessage = this.$route.query.successMessage;
-      this.errorMessage = this.$route.query.errorMessage;
-      this.autoDismissMessage();
+    if (this.successMessage || this.errorMessage) {
+      setTimeout(() => {
+        this.clearMessage();
+      }, 5000);
     }
-  },
-  watch: {
-    '$route'() {
-      this.successMessage = EventBus.successMessage;
-      this.errorMessage = EventBus.errorMessage;
-      if (this.successMessage || this.errorMessage) {
-        setTimeout(() => {
-          this.clearMessage();
-        }, 5000);
-      }
-    },
   },
   methods: {
     async fetchDebts() {
@@ -64,14 +52,8 @@ export default {
       this.debts = response.data;
     },
     clearMessage() {
-      EventBus.successMessage = null;
-      EventBus.errorMessage = null;
-    },
-    autoDismissMessage() {
-      setTimeout(() => {
-        this.successMessage = null; 
-        this.errorMessage = null;
-      }, 5000);
+      this.successMessage = null;
+      this.errorMessage = null;
     },
   },
   computed: {
