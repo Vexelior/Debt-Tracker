@@ -18,6 +18,7 @@
 
 <script>
 import axios from 'axios';
+import { EventBus } from '../EventBus';
 
 export default {
   data() {
@@ -35,7 +36,7 @@ export default {
       this.$emit('debtAdded', response.data); // Emit the event after adding a debt
       this.creditor = '';
       this.amount = null;
-
+      EventBus.successMessage = 'Debt added successfully!';
       this.$router.push('/');
     },
   },
