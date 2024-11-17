@@ -40,6 +40,12 @@ export default {
     await this.fetchDebts();
     this.successMessage = EventBus.successMessage;
     this.errorMessage = EventBus.errorMessage;
+
+    if (this.$route.query.successMessage || this.$route.query.errorMessage) {
+      this.successMessage = this.$route.query.successMessage;
+      this.errorMessage = this.$route.query.errorMessage;
+      this.autoDismissMessage();
+    }
   },
   watch: {
     '$route'() {
@@ -57,13 +63,15 @@ export default {
       const response = await axios.get('http://localhost:5000/api/debts');
       this.debts = response.data;
     },
-    async deleteDebt(id) {
-      await axios.delete(`http://localhost:5000/api/debts/${id}`);
-      await this.fetchDebts();
-    },
     clearMessage() {
       EventBus.successMessage = null;
       EventBus.errorMessage = null;
+    },
+    autoDismissMessage() {
+      setTimeout(() => {
+        this.successMessage = null; 
+        this.errorMessage = null;
+      }, 5000);
     },
   },
   computed: {
