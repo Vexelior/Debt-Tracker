@@ -9,13 +9,6 @@
 }
 
 @font-face {
-  font-family: 'FontAwesome';
-  src: url('./fonts/FontAwesome.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
   font-family: 'Maven';
   src: url('./fonts/Maven.otf') format('opentype');
   font-weight: normal;
