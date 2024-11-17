@@ -1,3 +1,7 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
+
 import { createRouter, createWebHistory } from 'vue-router';
 import DebtList from '../components/DebtList.vue';
 import AddDebt from '../components/AddDebt.vue';
