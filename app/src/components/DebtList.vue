@@ -13,9 +13,12 @@
     <h2 class="my-4">Debt List</h2>
     <router-link to="/add-debt" class="btn btn-primary mb-2">Add New Debt</router-link>
     <ul class="list-group">
-      <li v-for="debt in debts" :key="debt._id" class="list-group-item d-flex justify-content-between align-items-center">
+      <li v-for="debt in debts" :key="debt._id" class="list-group-item d-flex justify-content-end align-items-center">
         <span>{{ debt.creditor }}: {{ formattedAmount(debt.amount) }}</span>
-        <router-link :to="'/debt/' + debt._id" class="btn btn-dark btn-sm">View Details</router-link>
+        <div class="ms-auto">
+          <router-link :to="'/debt/' + debt._id" class="btn btn-dark btn-sm me-2">View Details</router-link>
+          <router-link :to="'/edit-debt/' + debt._id" class="btn btn-warning btn-sm">Edit</router-link>
+        </div>
       </li>
     </ul>
   </div>
@@ -56,7 +59,7 @@ export default {
     },
     async deleteDebt(id) {
       await axios.delete(`http://localhost:5000/api/debts/${id}`);
-      await this.fetchDebts(); 
+      await this.fetchDebts();
     },
     clearMessage() {
       EventBus.successMessage = null;

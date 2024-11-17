@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import DebtList from '../components/DebtList.vue';
 import AddDebt from '../components/AddDebt.vue';
 import DebtDetail from '../components/DebtDetail.vue';
+import EditDebt from '../components/EditDebt.vue';
 
 const routes = [
   {
@@ -19,6 +20,12 @@ const routes = [
     name: 'debt-detail',
     component: DebtDetail,
     props: true, 
+  },
+  {
+    path: '/edit-debt/:id',
+    name: 'edit-debt',
+    component: EditDebt,
+    props: true,
   }
 ];
 
