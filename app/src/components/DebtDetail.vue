@@ -6,6 +6,7 @@
           <h5 class="card-title">{{ debt.creditor }}</h5>
           <p class="card-text">
             <strong>Amount:</strong> {{ formattedAmount }}<br>
+            <strong>Notes:</strong> {{ debt.notes }}
           </p>
           <router-link to="/" class="btn btn-secondary">Back</router-link>
         </div>

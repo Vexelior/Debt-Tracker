@@ -11,6 +11,10 @@
                     <label for="amount" class="form-label">Amount</label>
                     <input type="number" class="form-control" id="amount" v-model="debt.amount" required />
                 </div>
+                <div class="mb-3">
+                    <label for="notes" class="form-label">Notes</label>
+                    <textarea class="form-control" id="notes" v-model="debt.notes"></textarea>
+                </div>
                 <button type="submit" class="btn btn-primary">Save Changes</button>
                 <router-link to="/" class="btn btn-secondary ms-2">Cancel</router-link>
             </form>
