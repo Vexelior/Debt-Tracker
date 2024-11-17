@@ -7,6 +7,7 @@ import AddDebt from '../components/AddDebt.vue';
 import DebtDetail from '../components/DebtDetail.vue';
 import EditDebt from '../components/EditDebt.vue';
 import GraphsPage from '../components/GraphsPage.vue';
+import NotFound from '../components/NotFound.vue';
 
 const routes = [
   {
@@ -42,6 +43,10 @@ const routes = [
     meta: {
       title: 'Graphs Page',
     },
+  },
+  {
+    path: '/*',
+    component: NotFound,
   }
 ];
 
