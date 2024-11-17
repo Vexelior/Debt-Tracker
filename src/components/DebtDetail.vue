@@ -41,7 +41,7 @@ export default {
   methods: {
     async fetchDebtDetails(debtId) {
       try {
-        const response = await axios.get(`http://localhost:5000/api/debts/${debtId}`);
+        const response = await axios.get(`https://localhost:7164/Debt/${debtId}`);
         this.debt = response.data;
       } catch (error) {
         console.error("Error fetching debt details:", error);

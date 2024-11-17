@@ -64,7 +64,7 @@ export default {
     methods: {
         async fetchDebtDetails(debtId) {
             try {
-                const response = await axios.get(`http://localhost:5000/api/debts/${debtId}`);
+                const response = await axios.get(`https://localhost:7164/Debt/${debtId}`);
                 this.debt = response.data;
                 this.originalAmount = this.debt.amount;  // Store original debt amount
             } catch (error) {
@@ -79,7 +79,7 @@ export default {
                 this.debt.percentageChange = percentageChange;  // Store percentage change in debt object
 
                 // Update debt in the database
-                await axios.put(`http://localhost:5000/api/debts/${debtId}`, this.debt);
+                await axios.put(`https://localhost:7164/Debt/${debtId}`, this.debt);
 
                 // Use EventBus to show success message and reset URL without query parameters
                 EventBus.successMessage = 'Debt updated successfully!';
@@ -99,7 +99,7 @@ export default {
         async deleteDebt() {
             try {
                 const debtId = this.$route.params.id;
-                await axios.delete(`http://localhost:5000/api/debts/${debtId}`);
+                await axios.delete(`https://localhost:7164/Debt/${debtId}`);
 
                 // Show success message and reset URL
                 EventBus.successMessage = 'Debt deleted successfully!';

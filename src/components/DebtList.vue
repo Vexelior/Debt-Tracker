@@ -25,8 +25,8 @@
             </p>
           </div>
           <div class="card-footer text-end">
-            <router-link :to="`/debt/${debt._id}`" class="btn btn-secondary btn-sm me-2">View</router-link>
-            <router-link :to="`/edit-debt/${debt._id}`" class="btn btn-primary btn-sm me-2">Edit</router-link>
+            <router-link :to="`/debt/${debt.id}`" class="btn btn-secondary btn-sm me-2">View</router-link>
+            <router-link :to="`/edit-debt/${debt.id}`" class="btn btn-primary btn-sm me-2">Edit</router-link>
           </div>
         </div>
       </div>
@@ -48,7 +48,6 @@ export default {
   },
   async created() {
     await this.fetchDebts();
-    // Handling success and error messages passed via EventBus
     this.successMessage = EventBus.successMessage;
     this.errorMessage = EventBus.errorMessage;
     if (this.successMessage || this.errorMessage) {
@@ -60,7 +59,8 @@ export default {
   methods: {
     async fetchDebts() {
       try {
-        const response = await axios.get('http://localhost:5000/api/debts');
+        const response = await axios.get('https://localhost:7164/Debt/');
+        console.log(response);
         this.debts = response.data;
       } catch (error) {
         console.error('Error fetching debts:', error);
@@ -80,9 +80,9 @@ export default {
     formattedPercentageChange() {
       return function(value) {
         if (value !== null && !isNaN(value)) {
-          return `(${value.toFixed(2)}%)`; // Ensure value is a valid number before formatting
+          return `(${value.toFixed(2)}%)`;
         }
-        return ''; // Return an empty string if the value is not valid
+        return ''; 
       };
     },
   },

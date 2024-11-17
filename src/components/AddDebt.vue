@@ -42,7 +42,7 @@ export default {
   methods: {
     async addDebt() {
       try {
-        const response = await axios.post('http://localhost:5000/api/debts', {
+        const response = await axios.post('https://localhost:7164/Debt/', {
           creditor: this.creditor,
           amount: this.amount,
           notes: this.notes,

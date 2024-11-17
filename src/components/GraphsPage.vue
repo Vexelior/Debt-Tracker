@@ -38,7 +38,7 @@
     },
     async created() {
       try {
-        const response = await axios.get('http://localhost:5000/api/debts');
+        const response = await axios.get('https://localhost:7164/Debt/');
         this.debts = response.data;
         this.renderCharts();
       } catch (error) {
