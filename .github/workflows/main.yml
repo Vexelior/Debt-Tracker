@@ -52,6 +52,5 @@ jobs:
           path: dist
 
       # Step 7: Deploy to GitHub Pages
-        environment:
-          name: github-pages
+      - name: Deploy Pages
         uses: actions/deploy-pages@v4
