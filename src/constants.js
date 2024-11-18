@@ -1,0 +1,1 @@
+export const API_URL = 'https://debt-tracker-api-management.azure-api.net/Debt';

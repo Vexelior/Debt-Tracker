@@ -49,6 +49,7 @@
 import axios from 'axios';
 import { Modal } from 'bootstrap';
 import { EventBus } from '../EventBus';
+import { API_URL } from '../constants.js';
 
 export default {
     data() {
@@ -64,7 +65,7 @@ export default {
     methods: {
         async fetchDebtDetails(debtId) {
             try {
-                const response = await axios.get(`https://localhost:7164/Debt/${debtId}`);
+                const response = await axios.get(`${API_URL}/${debtId}`);
                 this.debt = response.data;
                 this.originalAmount = this.debt.amount;  // Store original debt amount
             } catch (error) {

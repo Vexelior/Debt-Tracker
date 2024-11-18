@@ -15,7 +15,7 @@
               <router-link class="nav-link" to="/graphs">Graphs</router-link>
             </li>
             <li class="nav-item">
-              <router-link class="nav-link" to="/add-debt">Add Debt</router-link>
+              <router-link class="nav-link" to="/add-debt">Add</router-link>
             </li>
           </ul>
         </div>

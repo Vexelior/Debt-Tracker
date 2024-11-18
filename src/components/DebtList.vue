@@ -10,10 +10,8 @@
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="clearMessage"></button>
     </div>
 
-    <h2 class="my-4">Debt List</h2>
-
     <div class="row">
-      <div v-for="debt in debts" :key="debt._id" class="col-md-4 mb-4">
+      <div v-for="debt in debts" :key="debt._id" class="col-md-4 mb-4 mt-4">
         <div class="card h-100">
           <div class="card-body">
             <h5 class="card-title">{{ debt.creditor }}</h5>
@@ -37,6 +35,7 @@
 <script>
 import axios from 'axios';
 import { EventBus } from '../EventBus';
+import { API_URL } from '../constants.js';
 
 export default {
   data() {
@@ -59,7 +58,7 @@ export default {
   methods: {
     async fetchDebts() {
       try {
-        const response = await axios.get('https://localhost:7164/Debt/');
+        const response = await axios.get(API_URL);
         console.log(response);
         this.debts = response.data;
       } catch (error) {

@@ -20,28 +20,28 @@ const routes = [
     path: '/add-debt',
     name: 'add-debt',
     component: AddDebt,
-    meta: { title: 'Add Debt' }
+    meta: { title: 'Add' }
   },
   {
     path: '/debt/:id', 
     name: 'debt-detail',
     component: DebtDetail,
     props: true, 
-    meta: { title: 'Debt Detail' }
+    meta: { title: 'Detail' }
   },
   {
     path: '/edit-debt/:id',
     name: 'edit-debt',
     component: EditDebt,
     props: true,
-    meta: { title: 'Edit Debt'},
+    meta: { title: 'Edit'},
   },
   {
     path: '/graphs',
     name: 'GraphsPage',
     component: GraphsPage,
     meta: {
-      title: 'Graphs Page',
+      title: 'Graph',
     },
   },
   {

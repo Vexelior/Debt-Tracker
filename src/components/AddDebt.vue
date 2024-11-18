@@ -29,6 +29,7 @@
 <script>
 import axios from 'axios';
 import { EventBus } from '../EventBus';
+import { API_URL } from '../constants.js';
 
 export default {
   data() {
@@ -42,7 +43,7 @@ export default {
   methods: {
     async addDebt() {
       try {
-        const response = await axios.post('https://localhost:7164/Debt/', {
+        const response = await axios.post(API_URL, {
           creditor: this.creditor,
           amount: this.amount,
           notes: this.notes,
