@@ -11,7 +11,7 @@
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="clearMessage"></button>
     </div>
 
-    <div v-if="debts">
+    <div v-if="debts.length > 0">
       <div class="row">
         <div v-for="debt in debts" :key="debt._id" class="col-md-4 mb-4 mt-4">
           <div class="card h-100">
@@ -20,6 +20,9 @@
               <p class="card-text">
                 <strong>Amount:</strong> {{ formattedAmount(debt.remainingAmount) }}
                 <span v-if="debt.percentageChange > 0" class="badge text-bg-danger">
+                  {{ formattedPercentageChange(debt.percentageChange) }}
+                </span>
+                <span v-else-if="debt.percentageChange === 0" class="badge text-bg-secondary">
                   {{ formattedPercentageChange(debt.percentageChange) }}
                 </span>
                 <span v-else class="badge text-bg-success">
@@ -34,6 +37,9 @@
           </div>
         </div>
       </div>
+    </div>
+    <div v-else-if="debts.length === 0">
+      <p>No debts to display.</p>
     </div>
     <div v-else>
       <p>Loading debt information...</p>
@@ -76,6 +82,10 @@ export default {
     clearMessage() {
       this.successMessage = null;
       this.errorMessage = null;
+      var alert = document.querySelector('.alert');
+      if (alert) {
+        alert.remove();
+      } 
     },
   },
   computed: {

@@ -17,7 +17,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Save</button>
                 <router-link to="/" class="btn btn-secondary ms-2">Cancel</router-link>
-                <button class="btn btn-danger ms-2" @click="showDeleteModal">Delete</button>
+                <button type="button" class="btn btn-danger ms-2" @click="showDeleteModal">Delete</button>
             </form>
 
 
