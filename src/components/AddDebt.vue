@@ -15,6 +15,14 @@
         <input id="amount" v-model.number="amount" type="number" class="form-control" placeholder="Amount" step=".01" required />
       </div>
       <div class="mb-3">
+        <label for="yype" class="form-label">Debt Type</label>
+        <select id="yype" v-model="type" class="form-select" required>
+          <option value="Credit Card">Credit Card</option>
+          <option value="Loan">Loan</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="mb-3">
         <label for="notes" class="form-label">Notes</label>
         <textarea id="notes" v-model="notes" class="form-control" placeholder="Notes"></textarea>
       </div>
@@ -29,7 +37,7 @@
 <script>
 import axios from 'axios';
 import { EventBus } from '../EventBus';
-import { API_URL } from '../constants.js';
+import { DEBT_CONTROLLER } from '../constants.js';
 
 export default {
   data() {
@@ -37,16 +45,20 @@ export default {
       creditor: '',
       amount: null,
       notes: '',
+      type: '',
+      remainingAmount: null,
+      percentageChange: null,
       errorMessage: null,
     };
   },
   methods: {
     async addDebt() {
       try {
-        const response = await axios.post(API_URL, {
+        const response = await axios.post(`${DEBT_CONTROLLER}`, {
           creditor: this.creditor,
           amount: this.amount,
           notes: this.notes,
+          type: this.type,
         });
         console.log(response);
         if (response.status === 201) {

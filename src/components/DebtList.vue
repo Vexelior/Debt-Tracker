@@ -2,7 +2,8 @@
   <div class="container">
     <div v-if="successMessage" class="alert alert-success alert-dismissible fade show mt-2" role="alert">
       {{ successMessage }}
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="clearSuccessMessage"></button>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"
+        @click="clearSuccessMessage"></button>
     </div>
 
     <div v-if="errorMessage" class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
@@ -10,24 +11,32 @@
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="clearMessage"></button>
     </div>
 
-    <div class="row">
-      <div v-for="debt in debts" :key="debt._id" class="col-md-4 mb-4 mt-4">
-        <div class="card h-100">
-          <div class="card-body">
-            <h5 class="card-title">{{ debt.creditor }}</h5>
-            <p class="card-text">
-              <strong>Amount:</strong> {{ formattedAmount(debt.amount) }}
-              <span v-if="debt.percentageChange !== null && !isNaN(debt.percentageChange)" :class="{'text-success': debt.percentageChange > 0, 'text-danger': debt.percentageChange < 0}">
-                {{ formattedPercentageChange(debt.percentageChange) }}
-              </span>
-            </p>
-          </div>
-          <div class="card-footer text-end">
-            <router-link :to="`/debt/${debt.id}`" class="btn btn-secondary btn-sm me-2">View</router-link>
-            <router-link :to="`/edit-debt/${debt.id}`" class="btn btn-primary btn-sm me-2">Edit</router-link>
+    <div v-if="debts">
+      <div class="row">
+        <div v-for="debt in debts" :key="debt._id" class="col-md-4 mb-4 mt-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title">{{ debt.creditor }}</h5>
+              <p class="card-text">
+                <strong>Amount:</strong> {{ formattedAmount(debt.remainingAmount) }}
+                <span v-if="debt.percentageChange > 0" class="badge text-bg-danger">
+                  {{ formattedPercentageChange(debt.percentageChange) }}
+                </span>
+                <span v-else class="badge text-bg-success">
+                  {{ formattedPercentageChange(debt.percentageChange) }}
+                </span>
+              </p>
+            </div>
+            <div class="card-footer text-end">
+              <router-link :to="`/debt/${debt.id}`" class="btn btn-secondary btn-sm me-2">View</router-link>
+              <router-link :to="`/edit-debt/${debt.id}`" class="btn btn-primary btn-sm me-2">Edit</router-link>
+            </div>
           </div>
         </div>
       </div>
+    </div>
+    <div v-else>
+      <p>Loading debt information...</p>
     </div>
   </div>
 </template>
@@ -35,7 +44,7 @@
 <script>
 import axios from 'axios';
 import { EventBus } from '../EventBus';
-import { API_URL } from '../constants.js';
+import { DEBT_CONTROLLER } from '../constants.js';
 
 export default {
   data() {
@@ -58,8 +67,7 @@ export default {
   methods: {
     async fetchDebts() {
       try {
-        const response = await axios.get(API_URL);
-        console.log(response);
+        const response = await axios.get(`${DEBT_CONTROLLER}`);
         this.debts = response.data;
       } catch (error) {
         console.error('Error fetching debts:', error);
@@ -72,16 +80,16 @@ export default {
   },
   computed: {
     formattedAmount() {
-      return function(value) {
+      return function (value) {
         return `$${parseFloat(value).toFixed(2)}`;
       };
     },
     formattedPercentageChange() {
-      return function(value) {
+      return function (value) {
         if (value !== null && !isNaN(value)) {
           return `(${value.toFixed(2)}%)`;
         }
-        return ''; 
+        return '';
       };
     },
   },

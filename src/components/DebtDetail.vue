@@ -1,67 +1,132 @@
 <template>
   <div class="container">
-    <h2 class="my-4">Debt Details</h2>
-    <div v-if="debt" class="card">
-      <div class="card-body">
-        <h5 class="card-title">{{ debt.creditor }}</h5>
-        <p class="card-text">
-          <strong>Amount:</strong> {{ formattedAmount }}<br>
-        </p>
-        <p class="card-text">
-          <strong>Notes:</strong> {{ debt.notes ? debt.notes : 'No current note.' }}
-        </p>
-        <p class="mb-3">
-          <strong>Date Added:</strong> {{ formattedDateAdded }}
-        </p>
-        <p class="mb-3">
-          <strong>Last Edit:</strong> {{ formattedDateAdded }}
-        </p>
-        <router-link to="/" class="btn btn-secondary">Back</router-link>
+    <div class="row mt-5">
+      <div class="col-md-6">
+        <div v-if="debt" class="card">
+          <h1 class="card-header">Details</h1>
+          <div class="card-body">
+            <h5 class="card-title">{{ debt.creditor }}</h5>
+            <p class="card-text">
+              <strong>Original Balance:</strong> {{ formattedAmount(debt.amount) }}<br>
+            </p>
+            <p class="card-text">
+              <strong>Remaining Balance:</strong> {{ formattedAmount(debt.previousAmount) }}<br>
+            </p>
+            <p class="card-text">
+              <strong>Type:</strong> {{ debt.type }}
+            </p>
+            <p class="card-text">
+              <strong>Notes:</strong> {{ debt.notes ? debt.notes : 'No current note.' }}
+            </p>
+            <p class="mb-3">
+              <strong>Date Added:</strong> {{ formattedDate(debt.dateAdded) }}
+            </p>
+            <p class="mb-3">
+              <strong>Last Edit:</strong> {{ formattedDate(debt.dateEdited) }}
+            </p>
+            <router-link to="/" class="btn btn-secondary">Back</router-link>
+          </div>
+        </div>
+        <div v-else>
+          <p>Loading debt details...</p>
+        </div>
       </div>
-    </div>
-    <div v-else>
-      <p>Loading details...</p>
+      <div class="col-md-6">
+        <div v-if="debt" class="card">
+          <h1 class="card-header">History</h1>
+          <div class="card-body">
+            <div v-if="debtHistory.length === 0">
+              <span class="list-group-item">No history available.</span>
+            </div>
+            <div v-else>
+              <ul class="list-group">
+                <li v-for="history in debtHistory" :key="history._id" class="list-group-item">
+                  <div class="d-flex justify-content-between">
+                    <span>{{ history.description }}</span>
+                    <span v-if="history.percentageChange > 0" class="badge text-bg-danger">
+                      {{ formattedPercentage(history.percentageChange)}}
+                    </span>
+                    <span v-else-if="history.percentageChange === 0" class="badge text-bg-secondary">
+                      {{ formattedPercentage(history.percentageChange)}}
+                    </span>
+                    <span v-else class="badge text-bg-success">
+                      {{ formattedPercentage(history.percentageChange)}}
+                    </span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div v-else>
+          <p>Loading debt history...</p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
-import { API_URL } from '../constants.js';
+import { DEBT_CONTROLLER } from '../constants.js';
+import { DEBT_HISTORY_CONTROLLER } from '../constants.js';
 
 export default {
   data() {
     return {
       debt: null,
+      debtHistory: null
     };
   },
   async created() {
     const debtId = this.$route.params.id;
     await this.fetchDebtDetails(debtId);
+    await this.fetchDebtHisotry(debtId);
   },
   methods: {
     async fetchDebtDetails(debtId) {
       try {
-        const response = await axios.get(`${API_URL}/${debtId}`);
+        const response = await axios.get(`${DEBT_CONTROLLER}/${debtId}`);
         this.debt = response.data;
       } catch (error) {
         console.error("Error fetching debt details:", error);
       }
     },
+    async fetchDebtHisotry(debtId) {
+      try {
+        const response = await axios.get(`${DEBT_HISTORY_CONTROLLER}/${debtId}`);
+
+
+        if (response.status === 404) {
+          this.debtHistory = [];
+          return;
+        }
+        this.debtHistory = response.data;
+      } catch (error) {
+        this.debtHistory = [];
+        console.error("Error fetching debt history:", error);
+      }
+    }
   },
   computed: {
-    formattedAmount() {
-      return new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-      }).format(this.debt.amount);
+      formattedDate() {
+        return function (date) {
+          return new Date(date).toLocaleDateString();
+        };
+      },
+      formattedAmount() {
+        return function (value) {
+          return `$${parseFloat(value).toFixed(2)}`;
+        };
+      },
+      formattedPercentage() {
+        return function (value) {
+          if (value !== null && !isNaN(value)) {
+            return `(${value.toFixed(2)}%)`;
+          }
+          return '';
+        };
+      },
     },
-    formattedDateAdded() {
-      return new Date(this.debt.dateAdded).toLocaleDateString();
-    },
-    formattedDateLastEdit() {
-      return new Date(this.debt.dateLastEdit).toLocaleDateString();
-    },
-  },
 };
 </script>

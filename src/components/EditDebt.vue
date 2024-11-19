@@ -9,17 +9,17 @@
                 </div>
                 <div class="mb-3">
                     <label for="amount" class="form-label">Amount</label>
-                    <input type="number" class="form-control" id="amount" step=".01" v-model="debt.amount" required />
+                    <input type="number" class="form-control" id="amount" step=".01" v-model="debt.remainingAmount" required />
                 </div>
                 <div class="mb-3">
                     <label for="notes" class="form-label">Notes</label>
                     <textarea class="form-control" id="notes" v-model="debt.notes"></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <button type="submit" class="btn btn-primary">Save</button>
                 <router-link to="/" class="btn btn-secondary ms-2">Cancel</router-link>
+                <button class="btn btn-danger ms-2" @click="showDeleteModal">Delete</button>
             </form>
 
-            <button class="btn btn-danger mt-4" @click="showDeleteModal">Delete Debt</button>
 
             <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -49,13 +49,14 @@
 import axios from 'axios';
 import { Modal } from 'bootstrap';
 import { EventBus } from '../EventBus';
-import { API_URL } from '../constants.js';
+import { DEBT_CONTROLLER } from '../constants.js';
 
 export default {
     data() {
         return {
             debt: null,
-            originalAmount: null,  // Store original amount to calculate percentage change
+            originalAmount: null,  // Store original amount to calculate percentage change,
+            paidAmount: null,
         };
     },
     async created() {
@@ -65,7 +66,7 @@ export default {
     methods: {
         async fetchDebtDetails(debtId) {
             try {
-                const response = await axios.get(`${API_URL}/${debtId}`);
+                const response = await axios.get(`${DEBT_CONTROLLER}/${debtId}`);
                 this.debt = response.data;
                 this.originalAmount = this.debt.amount;  // Store original debt amount
             } catch (error) {
@@ -76,11 +77,13 @@ export default {
             try {
                 const debtId = this.$route.params.id;
                 // Calculate percentage change
-                const percentageChange = this.calculatePercentageChange(this.originalAmount, this.debt.amount);
+                const percentageChange = this.calculatePercentageChange(this.debt.amount, this.debt.remainingAmount);
                 this.debt.percentageChange = percentageChange;  // Store percentage change in debt object
 
+                console.log("Debt:", this.debt);
+
                 // Update debt in the database
-                await axios.put(`https://localhost:7164/Debt/${debtId}`, this.debt);
+                await axios.put(`${DEBT_CONTROLLER}/${debtId}`, this.debt, this.paidAmount);
 
                 // Use EventBus to show success message and reset URL without query parameters
                 EventBus.successMessage = 'Debt updated successfully!';
@@ -88,7 +91,7 @@ export default {
 
             } catch (error) {
                 EventBus.errorMessage = 'Failed to update debt! - ' + error.message;
-                console.error("Error updating debt:", error);
+                console.error("Error updating debt:", error.message);
                 this.$router.push({ path: '/' });
             }
         },

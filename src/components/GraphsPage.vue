@@ -27,7 +27,7 @@
   <script>
   import axios from 'axios';
   import { Chart } from 'chart.js/auto';
-  import { API_URL } from '../constants.js';
+  import { DEBT_CONTROLLER } from '../constants.js';
   
   export default {
     data() {
@@ -39,7 +39,7 @@
     },
     async created() {
       try {
-        const response = await axios.get(API_URL);
+        const response = await axios.get(DEBT_CONTROLLER);
         this.debts = response.data;
         this.renderCharts();
       } catch (error) {
