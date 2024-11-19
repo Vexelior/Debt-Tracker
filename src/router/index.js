@@ -8,6 +8,7 @@ import DebtDetail from '../components/DebtDetail.vue';
 import EditDebt from '../components/EditDebt.vue';
 import GraphsPage from '../components/GraphsPage.vue';
 import NotFound from '../components/NotFound.vue';
+import LoggingPage from '../components/LoggingPage.vue';
 
 const routes = [
   {
@@ -42,6 +43,14 @@ const routes = [
     component: GraphsPage,
     meta: {
       title: 'Graph',
+    },
+  },
+  {
+    path: '/logging',
+    name: 'LoggingPage',
+    component: LoggingPage,
+    meta: {
+      title: 'Logging',
     },
   },
   {
