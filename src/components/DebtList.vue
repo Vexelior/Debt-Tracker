@@ -1,16 +1,5 @@
 <template>
   <div class="container">
-    <div v-if="successMessage" class="alert alert-success alert-dismissible fade show mt-2" role="alert">
-      {{ successMessage }}
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"
-        @click="clearSuccessMessage"></button>
-    </div>
-
-    <div v-if="errorMessage" class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
-      {{ errorMessage }}
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="clearMessage"></button>
-    </div>
-
     <div v-if="debts.length > 0">
       <div class="row">
         <div v-for="debt in debts" :key="debt._id" class="col-md-4 mb-4 mt-4">
@@ -49,26 +38,16 @@
 
 <script>
 import axios from 'axios';
-import { EventBus } from '../EventBus';
 import { DEBT_CONTROLLER } from '../constants.js';
 
 export default {
   data() {
     return {
       debts: [],
-      successMessage: null,
-      errorMessage: null,
     };
   },
   async created() {
     await this.fetchDebts();
-    this.successMessage = EventBus.successMessage;
-    this.errorMessage = EventBus.errorMessage;
-    if (this.successMessage || this.errorMessage) {
-      setTimeout(() => {
-        this.clearMessage();
-      }, 5000);
-    }
   },
   methods: {
     async fetchDebts() {
@@ -78,14 +57,6 @@ export default {
       } catch (error) {
         console.error('Error fetching debts:', error);
       }
-    },
-    clearMessage() {
-      this.successMessage = null;
-      this.errorMessage = null;
-      var alert = document.querySelector('.alert');
-      if (alert) {
-        alert.remove();
-      } 
     },
   },
   computed: {

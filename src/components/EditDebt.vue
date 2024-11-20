@@ -12,6 +12,14 @@
                     <input type="number" class="form-control" id="amount" step=".01" v-model="debt.remainingAmount" required />
                 </div>
                 <div class="mb-3">
+                    <label for="type" class="form-label">Type</label>
+                    <select class="form-select" id="type" v-model="debt.type" required>
+                        <option value="Credit Card">Credit Card</option>
+                        <option value="Loan">Loan</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="mb-3">
                     <label for="notes" class="form-label">Notes</label>
                     <textarea class="form-control" id="notes" v-model="debt.notes"></textarea>
                 </div>

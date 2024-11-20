@@ -1,13 +1,5 @@
 <template>
   <div class="container">
-    <div v-if="successMessage" class="alert alert-success alert-dismissible fade show mt-2" role="alert">
-      {{ successMessage }}
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="clearMessage"></button>
-    </div>
-    <div v-if="errorMessage" class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
-      {{ errorMessage }}
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="clearMessage"></button>
-    </div>
     <div v-if="debts.length === 0" class="alert alert-info mt-2" role="alert">
       No debts found.
     </div>
@@ -45,14 +37,6 @@ export default {
     } catch (error) {
       this.errorMessage = "Failed to load debts.";
       console.error("Error fetching debts:", error);
-    }
-
-    this.successMessage = this.$route.query.successMessage;
-    this.errorMessage = this.$route.query.errorMessage;
-    if (this.successMessage || this.errorMessage) {
-      setTimeout(() => {
-        this.clearMessage();
-      }, 5000);
     }
   },
   methods: {
@@ -120,11 +104,6 @@ export default {
           },
         },
       });
-    },
-
-    clearMessage() {
-      this.successMessage = null;
-      this.errorMessage = null;
     },
   },
 };

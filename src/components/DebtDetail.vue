@@ -32,7 +32,38 @@
         </div>
       </div>
       <div class="col-md-6">
-        <div v-if="debt" class="card">
+        <div v-if="debtPreviousAmounts" class="card">
+          <h1 class="card-header">Previous Amounts</h1>
+          <div class="card-body">
+            <div v-if="debtPreviousAmounts.length === 0">
+              <span class="list-group-item">No previous amounts available.</span>
+            </div>
+            <div v-else>
+              <ul class="list-group">
+                <li v-for="amount in debtPreviousAmounts" :key="amount.id" class="list-group-item">
+                  <div class="d-flex justify-content-between">
+                    <span>{{ formattedAmount(amount.previousAmount) }}</span>
+                    <span>{{ formattedDate(amount.dateAdded) }}</span>
+                    <span v-if="amount.percentageChange > 0" class="badge text-bg-danger">
+                      {{ formattedPercentage(amount.percentageChange) }}
+                    </span>
+                    <span v-else-if="amount.percentageChange === 0" class="badge text-bg-secondary">
+                      {{ formattedPercentage(amount.percentageChange) }}
+                    </span>
+                    <span v-else class="badge text-bg-success">
+                      {{ formattedPercentage(amount.percentageChange) }}
+                    </span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 mt-5 mb-5">
+        <div v-if="debtHistory" class="card">
           <h1 class="card-header">History</h1>
           <div class="card-body">
             <div v-if="debtHistory.length === 0">
@@ -42,16 +73,8 @@
               <ul class="list-group">
                 <li v-for="history in debtHistory" :key="history._id" class="list-group-item">
                   <div class="d-flex justify-content-between">
-                    <span>{{ history.description }}</span>
-                    <span v-if="history.percentageChange > 0" class="badge text-bg-danger">
-                      {{ formattedPercentage(history.percentageChange)}}
-                    </span>
-                    <span v-else-if="history.percentageChange === 0" class="badge text-bg-secondary">
-                      {{ formattedPercentage(history.percentageChange)}}
-                    </span>
-                    <span v-else class="badge text-bg-success">
-                      {{ formattedPercentage(history.percentageChange)}}
-                    </span>
+                    <span>[{{ formattedDate(history.timestamp) }}] {{ history.description }}</span>
+
                   </div>
                 </li>
               </ul>
@@ -69,19 +92,21 @@
 <script>
 import axios from 'axios';
 import { DEBT_CONTROLLER } from '../constants.js';
-import { DEBT_HISTORY_CONTROLLER } from '../constants.js';
+import { DEBT_HISTORY_CONTROLLER, DEBT_PREVIOUS_AMOUNT } from '../constants.js';
 
 export default {
   data() {
     return {
       debt: null,
-      debtHistory: null
+      debtHistory: null,
+      debtPreviousAmounts: null
     };
   },
   async created() {
     const debtId = this.$route.params.id;
     await this.fetchDebtDetails(debtId);
-    await this.fetchDebtHisotry(debtId);
+    await this.fetchDebtHistory(debtId);
+    await this.fetchPreviousDebt(debtId);
   },
   methods: {
     async fetchDebtDetails(debtId) {
@@ -92,41 +117,54 @@ export default {
         console.error("Error fetching debt details:", error);
       }
     },
-    async fetchDebtHisotry(debtId) {
+    async fetchDebtHistory(debtId) {
       try {
         const response = await axios.get(`${DEBT_HISTORY_CONTROLLER}/${debtId}`);
-
-
-        if (response.status === 404) {
-          this.debtHistory = [];
-          return;
-        }
         this.debtHistory = response.data;
       } catch (error) {
         this.debtHistory = [];
         console.error("Error fetching debt history:", error);
       }
+    },
+    async fetchPreviousDebt(debtId) {
+      try {
+        const response = await axios.get(`${DEBT_PREVIOUS_AMOUNT}/${debtId}`);
+        console.log(response.data);
+        this.debtPreviousAmounts = response.data;
+      } catch (error) {
+        console.error("Error fetching previous debt amount:", error);
+      }
+    },
+    async renameProperties(debtHistory) {
+      const renamedHistory = debtHistory.map((history) => {
+        return {
+          _id: history._id,
+          description: history.description,
+          percentageChange: history.percentageChange
+        };
+      });
+      return renamedHistory;
     }
   },
   computed: {
-      formattedDate() {
-        return function (date) {
-          return new Date(date).toLocaleDateString();
-        };
-      },
-      formattedAmount() {
-        return function (value) {
-          return `$${parseFloat(value).toFixed(2)}`;
-        };
-      },
-      formattedPercentage() {
-        return function (value) {
-          if (value !== null && !isNaN(value)) {
-            return `(${value.toFixed(2)}%)`;
-          }
-          return '';
-        };
-      },
+    formattedDate() {
+      return function (date) {
+        return new Date(date).toLocaleDateString();
+      };
     },
+    formattedAmount() {
+      return function (value) {
+        return `$${parseFloat(value).toFixed(2)}`;
+      };
+    },
+    formattedPercentage() {
+      return function (value) {
+        if (value !== null && !isNaN(value)) {
+          return `(${value.toFixed(2)}%)`;
+        }
+        return '';
+      };
+    },
+  },
 };
 </script>
