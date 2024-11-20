@@ -143,7 +143,6 @@ export default {
     async fetchPreviousDebt(debtId) {
       try {
         const response = await axios.get(`${DEBT_PREVIOUS_AMOUNT}/${debtId}`);
-        console.log(response.data);
         this.debtPreviousAmounts = response.data;
       } catch (error) {
         console.error("Error fetching previous debt amount:", error);

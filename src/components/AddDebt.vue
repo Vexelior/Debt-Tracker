@@ -1,9 +1,5 @@
 <template>
   <div class="container">
-    <div v-if="errorMessage" class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
-      {{ errorMessage }}
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @click="clearMessage"></button>
-    </div>
     <h2 class="my-4">Add Debt</h2>
     <form @submit.prevent="addDebt">
       <div class="mb-3">
@@ -12,7 +8,8 @@
       </div>
       <div class="mb-3">
         <label for="amount" class="form-label">Amount</label>
-        <input id="amount" v-model.number="amount" type="number" class="form-control" placeholder="Amount" step=".01" required />
+        <input id="amount" v-model.number="amount" type="number" class="form-control" placeholder="Amount" step=".01"
+          required />
       </div>
       <div class="mb-3">
         <label for="yype" class="form-label">Debt Type</label>
@@ -26,6 +23,10 @@
         <label for="notes" class="form-label">Notes</label>
         <textarea id="notes" v-model="notes" class="form-control" placeholder="Notes"></textarea>
       </div>
+      <div class="mb-3">
+        <label for="image" class="form-label">Image</label>
+        <input id="image" type="file" ref="image" class="form-control" accept="image/*" />
+      </div>
       <div class="d-flex justify-content-start">
         <button type="submit" class="btn btn-primary me-2">Add Debt</button>
         <router-link to="/" class="btn btn-secondary">Back</router-link>
@@ -36,7 +37,6 @@
 
 <script>
 import axios from 'axios';
-import { EventBus } from '../EventBus';
 import { DEBT_CONTROLLER } from '../constants.js';
 
 export default {
@@ -46,39 +46,37 @@ export default {
       amount: null,
       notes: '',
       type: '',
-      remainingAmount: null,
-      percentageChange: null,
-      errorMessage: null,
+      image: null,
     };
   },
   methods: {
     async addDebt() {
       try {
-        const response = await axios.post(`${DEBT_CONTROLLER}`, {
+        let imageFile = null;
+        if (this.$refs.image.files[0]) {
+          imageFile = await this.convertImageToBase64(this.$refs.image.files[0]);
+        }
+        const payload = {
           creditor: this.creditor,
           amount: this.amount,
           notes: this.notes,
           type: this.type,
-        });
-        console.log(response);
-        if (response.status === 201) {
-          this.$emit('debtAdded', response.data);
-          EventBus.successMessage = 'Debt added successfully!';
-          this.$router.push('/');
-        } else {
-          this.errorMessage = 'Failed to add debt!';
-          this.clearMessage();
-        }
+          image: imageFile,
+        };
+        const response = await axios.post(DEBT_CONTROLLER, payload);
+        this.$router.push(`/debt/${response.data.id}`);
       } catch (error) {
-        this.errorMessage = 'Failed to add debt! Please try again. ' + error.message;
-        this.clearMessage();
+        console.error('Error adding debt:', error);
       }
     },
-    clearMessage() {
-      setTimeout(() => {
-        this.errorMessage = null;
-      }, 5000);
-    }
+    convertImageToBase64(imageFile) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+        reader.readAsDataURL(imageFile);
+      });
+    },
   },
 };
 </script>

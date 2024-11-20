@@ -24,6 +24,10 @@
                     <label for="notes" class="form-label">Notes</label>
                     <textarea class="form-control" id="notes" v-model="debt.notes"></textarea>
                 </div>
+                <div class="mb-3">
+                    <label for="image" class="form-label">Image</label>
+                    <input id="image" type="file" ref="image" class="form-control" accept="image/*" />
+                </div>
                 <button type="submit" class="btn btn-primary">Save</button>
                 <router-link to="/" class="btn btn-secondary ms-2">Cancel</router-link>
                 <button type="button" class="btn btn-danger ms-2 float-end" @click="showDeleteModal">Delete</button>
@@ -70,8 +74,6 @@ export default {
     data() {
         return {
             debt: null,
-            originalAmount: null,  // Store original amount to calculate percentage change,
-            paidAmount: null,
         };
     },
     async created() {
@@ -90,6 +92,9 @@ export default {
         },
         async updateDebt() {
             try {
+                if (this.$refs.image.files[0]) {
+                    this.debt.image = await this.convertImageToBase64(this.$refs.image.files[0]);
+                }
                 const debtId = this.$route.params.id;
                 await axios.put(`${DEBT_CONTROLLER}/${debtId}`, this.debt, this.paidAmount);
                 this.$router.push({ path: `/debt/${this.debt.id}` });
@@ -97,6 +102,14 @@ export default {
                 console.error("Error updating debt:", error.message);
                 this.$router.push({ path: '/' });
             }
+        },
+        convertImageToBase64(imageFile) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+                reader.readAsDataURL(imageFile);
+            });
         },
         showDeleteModal() {
             const modalElement = document.getElementById('deleteModal');
