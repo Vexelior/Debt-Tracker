@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h2 class="my-4">Add Debt</h2>
+    <h1>Add Debt</h1>
     <form @submit.prevent="addDebt">
       <div class="mb-3">
         <label for="creditor" class="form-label">Creditor</label>
@@ -64,6 +64,7 @@ export default {
           image: imageFile,
         };
         const response = await axios.post(DEBT_CONTROLLER, payload);
+        console.log('Debt added:', response.data);
         this.$router.push(`/debt/${response.data.id}`);
       } catch (error) {
         console.error('Error adding debt:', error);

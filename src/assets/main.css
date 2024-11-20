@@ -2,7 +2,8 @@
 
 html {
     position: relative;
-    min-height: 100%;}
+    min-height: 100%;
+}
 
 body {
     font-family: 'Maven', sans-serif !important;

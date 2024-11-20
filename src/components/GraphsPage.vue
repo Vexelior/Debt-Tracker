@@ -1,6 +1,20 @@
 <template>
-  <div v-if="debts">
-    <div class="container">
+  <div class="container">
+    <h1>Graphs</h1>
+    <div v-if="loading">
+      <div class="text-center mt-5 col-md-6 m-auto">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p>Loading...</p>
+      </div>
+    </div>
+    <div v-if="debts.length === 0">
+      <div class="mt-5">
+        No debts found to render graphs.
+      </div>
+    </div>
+    <div v-else-if="debts.length > 0">
       <div class="row mt-5">
         <div class="col-md-6">
           <h3 class="mb-2 text-center text-underline"><u>Debt Distribution by Creditor</u></h3>
@@ -11,14 +25,6 @@
           <canvas id="barChart" width="400" height="400"></canvas>
         </div>
       </div>
-    </div>
-  </div>
-  <div v-else>
-    <div class="loader text-center mt-5 col-md-6 m-auto">
-      <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-      <p>Loading...</p>
     </div>
   </div>
 </template>
@@ -32,30 +38,30 @@ export default {
   data() {
     return {
       debts: [],
-      successMessage: null,
-      errorMessage: null,
+      loading: true,
     };
   },
   async created() {
     try {
       const response = await axios.get(DEBT_CONTROLLER);
       this.debts = response.data;
-      this.renderCharts();
+      await this.$nextTick();
     } catch (error) {
-      this.errorMessage = "Failed to load debts.";
       console.error("Error fetching debts:", error);
+    } finally {
+      this.loading = false;
+      await this.renderCharts();
     }
   },
   methods: {
-    renderCharts() {
+    async renderCharts() {
       const pieChartData = {
         labels: this.debts.map(debt => debt.creditor),
         datasets: [{
           data: this.debts.map(debt => debt.amount),
-          backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#FF5733', '#C70039'], // Customize colors
+          backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#FF5733', '#C70039'],
         }],
       };
-
       const barChartData = {
         labels: this.debts.map(debt => debt.creditor),
         datasets: [{
@@ -66,7 +72,6 @@ export default {
           borderWidth: 1,
         }],
       };
-
       new Chart(document.getElementById('pieChart'), {
         type: 'pie',
         data: pieChartData,
@@ -86,7 +91,6 @@ export default {
           },
         },
       });
-
       new Chart(document.getElementById('barChart'), {
         type: 'bar',
         data: barChartData,

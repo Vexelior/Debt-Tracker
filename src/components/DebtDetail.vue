@@ -86,7 +86,7 @@
       </div>
     </div>
     <div v-else>
-      <div class="loader text-center mt-5 col-md-6 m-auto">
+      <div class="text-center mt-5 col-md-6 m-auto">
         <div class="spinner-border text-primary" role="status">
           <span class="visually-hidden">Loading...</span>
         </div>

@@ -1,30 +1,37 @@
 <template>
-  <div class="container">
-    <div v-if="debts.length > 0">
-      <div class="row">
-        <div v-for="debt in debts" :key="debt.id" class="col-md-4 mb-4 mt-4">
-          <router-link :to="`/debt/${debt.id}`">
-            <div class="card h-100" title="Click to view details">
-              <div class="card-body">
-                <h5 class="card-title">{{ debt.creditor }}</h5>
-                <div v-if="debt.image != null">
-                  <img :src="debt.image" class="card-img-top" alt="Creditor logo" />
+  <div v-if="loading">
+    <div class="text-center mt-5 col-md-6 m-auto">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p>Loading...</p>
+    </div>
+  </div>
+  <div v-else>
+    <div class="container">
+      <div v-if="debts.length > 0">
+        <div class="row">
+          <div v-for="debt in debts" :key="debt.id" class="col-md-4 mb-4 mt-4">
+            <router-link :to="`/debt/${debt.id}`">
+              <div class="card h-100" title="Click to view details">
+                <div class="card-body">
+                  <h5 class="card-title">{{ debt.creditor }}</h5>
+                  <div v-if="debt.image != null">
+                    <img :src="debt.image" class="card-img-top" alt="Creditor logo" />
+                  </div>
+                  <p class="card-text mt-2">
+                    <strong>Balance:</strong> {{ formattedAmount(debt.previousAmount) }}<br>
+                  </p>
                 </div>
-                <p class="card-text mt-2">
-                  <strong>Balance:</strong> {{ formattedAmount(debt.previousAmount) }}<br>
-                </p>
               </div>
-            </div>
-          </router-link>
+            </router-link>
+          </div>
         </div>
       </div>
-    </div>
-    <div v-else>
-      <div class="loader text-center mt-5 col-md-6 m-auto">
-        <div class="spinner-border text-primary" role="status">
-          <span class="visually-hidden">Loading...</span>
+      <div v-else-if="debts.length === 0">
+        <div class="mt-5">
+          No debts found.
         </div>
-        <p>Loading...</p>
       </div>
     </div>
   </div>
@@ -38,6 +45,7 @@ export default {
   data() {
     return {
       debts: [],
+      loading: true,
     };
   },
   async created() {
@@ -50,6 +58,8 @@ export default {
         this.debts = response.data;
       } catch (error) {
         console.error('Error fetching debts:', error);
+      } finally {
+        this.loading = false;
       }
     },
   },

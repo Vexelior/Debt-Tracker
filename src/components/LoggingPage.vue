@@ -1,7 +1,15 @@
 <template>
-  <div class="container">
+    <div v-if="loading">
+    <div class="text-center mt-5 col-md-6 m-auto">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p>Loading...</p>
+    </div>
+  </div>
+  <div v-else class="container">
     <h1>Logs</h1>
-    <div v-if="logs">
+    <div v-if="logs.length > 0">
       <div class="row scrollable-list-large">
         <div class="col-md-12 mb-4 mt-4">
           <div class="table-responsive">
@@ -27,14 +35,11 @@
         </div>
       </div>
     </div>
-    <div v-else>
-      <div class="loader text-center mt-5 col-md-6 m-auto">
-        <div class="spinner-border text-primary" role="status">
-          <span class="visually-hidden">Loading...</span>
+    <div v-else-if="logs.length === 0">
+        <div class="mt-5">
+          No logs found.
         </div>
-        <p>Loading...</p>
       </div>
-    </div>
   </div>
 </template>
 
