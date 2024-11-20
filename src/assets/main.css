@@ -163,6 +163,16 @@ p {
     font-family: 'Maven', sans-serif !important;
 }
 
+.scrollable-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.scrollable-list-large {
+    max-height: 350px;
+    overflow-y: auto;
+}
+
 /* Footer */
 footer {
     background-color: var(--primary) !important;

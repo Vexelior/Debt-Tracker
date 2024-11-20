@@ -2,7 +2,7 @@
   <div class="container">
     <h1>Logs</h1>
     <div v-if="logs">
-      <div class="row">
+      <div class="row scrollable-list-large">
         <div class="col-md-12 mb-4 mt-4">
           <div class="table-responsive">
             <table class="table table-bordered">
@@ -28,7 +28,12 @@
       </div>
     </div>
     <div v-else>
-      <p>No logs to display.</p>
+      <div class="loader text-center mt-5 col-md-6 m-auto">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p>Loading...</p>
+      </div>
     </div>
   </div>
 </template>

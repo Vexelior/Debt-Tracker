@@ -2,36 +2,24 @@
   <div class="container">
     <div v-if="debts.length > 0">
       <div class="row">
-        <div v-for="debt in debts" :key="debt._id" class="col-md-4 mb-4 mt-4">
-          <div class="card h-100">
-            <div class="card-body">
-              <h5 class="card-title">{{ debt.creditor }}</h5>
-              <p class="card-text">
-                <strong>Amount:</strong> {{ formattedAmount(debt.remainingAmount) }}
-                <span v-if="debt.percentageChange > 0" class="badge text-bg-danger">
-                  {{ formattedPercentageChange(debt.percentageChange) }}
-                </span>
-                <span v-else-if="debt.percentageChange === 0" class="badge text-bg-secondary">
-                  {{ formattedPercentageChange(debt.percentageChange) }}
-                </span>
-                <span v-else class="badge text-bg-success">
-                  {{ formattedPercentageChange(debt.percentageChange) }}
-                </span>
-              </p>
+        <div v-for="debt in debts" :key="debt.id" class="col-md-4 mb-4 mt-4">
+          <router-link :to="`/debt/${debt.id}`">
+            <div class="card h-100" title="Click to view details">
+              <div class="card-body">
+                <h5 class="card-title">{{ debt.creditor }}</h5>
+              </div>
             </div>
-            <div class="card-footer text-end">
-              <router-link :to="`/debt/${debt.id}`" class="btn btn-secondary btn-sm me-2">View</router-link>
-              <router-link :to="`/edit-debt/${debt.id}`" class="btn btn-primary btn-sm me-2">Edit</router-link>
-            </div>
-          </div>
+          </router-link>
         </div>
       </div>
     </div>
-    <div v-else-if="debts.length === 0">
-      <p>No debts to display.</p>
-    </div>
     <div v-else>
-      <p>Loading debt information...</p>
+      <div class="loader text-center mt-5 col-md-6 m-auto">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p>Loading...</p>
+      </div>
     </div>
   </div>
 </template>

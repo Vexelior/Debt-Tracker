@@ -1,17 +1,24 @@
 <template>
-  <div class="container">
-    <div v-if="debts.length === 0" class="alert alert-info mt-2" role="alert">
-      No debts found.
+  <div v-if="debts">
+    <div class="container">
+      <div class="row mt-5">
+        <div class="col-md-6">
+          <h3 class="mb-2 text-center text-underline"><u>Debt Distribution by Creditor</u></h3>
+          <canvas id="pieChart" width="400" height="400"></canvas>
+        </div>
+        <div class="col-md-6">
+          <h3 class="mb-2 text-center"><u>Debt Amounts by Creditor</u></h3>
+          <canvas id="barChart" width="400" height="400"></canvas>
+        </div>
+      </div>
     </div>
-    <div class="row mt-5">
-      <div class="col-md-6">
-        <h3 class="mb-2 text-center text-underline"><u>Debt Distribution by Creditor</u></h3>
-        <canvas id="pieChart" width="400" height="400"></canvas>
+  </div>
+  <div v-else>
+    <div class="loader text-center mt-5 col-md-6 m-auto">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
       </div>
-      <div class="col-md-6">
-        <h3 class="mb-2 text-center"><u>Debt Amounts by Creditor</u></h3>
-        <canvas id="barChart" width="400" height="400"></canvas>
-      </div>
+      <p>Loading...</p>
     </div>
   </div>
 </template>

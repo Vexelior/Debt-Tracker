@@ -9,7 +9,8 @@
                 </div>
                 <div class="mb-3">
                     <label for="amount" class="form-label">Amount</label>
-                    <input type="number" class="form-control" id="amount" step=".01" v-model="debt.remainingAmount" required />
+                    <input type="number" class="form-control" id="amount" step=".01" v-model="debt.remainingAmount"
+                        required />
                 </div>
                 <div class="mb-3">
                     <label for="type" class="form-label">Type</label>
@@ -25,11 +26,12 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Save</button>
                 <router-link to="/" class="btn btn-secondary ms-2">Cancel</router-link>
-                <button type="button" class="btn btn-danger ms-2" @click="showDeleteModal">Delete</button>
+                <button type="button" class="btn btn-danger ms-2 float-end" @click="showDeleteModal">Delete</button>
             </form>
 
 
-            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel"
+                aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -48,7 +50,12 @@
             </div>
         </div>
         <div v-else>
-            <p>Loading debt information...</p>
+            <div class="loader text-center mt-5 col-md-6 m-auto">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p>Loading...</p>
+            </div>
         </div>
     </div>
 </template>
@@ -84,21 +91,9 @@ export default {
         async updateDebt() {
             try {
                 const debtId = this.$route.params.id;
-                // Calculate percentage change
-                const percentageChange = this.calculatePercentageChange(this.debt.amount, this.debt.remainingAmount);
-                this.debt.percentageChange = percentageChange;  // Store percentage change in debt object
-
-                console.log("Debt:", this.debt);
-
-                // Update debt in the database
                 await axios.put(`${DEBT_CONTROLLER}/${debtId}`, this.debt, this.paidAmount);
-
-                // Use EventBus to show success message and reset URL without query parameters
-                EventBus.successMessage = 'Debt updated successfully!';
-                this.$router.push({ path: '/' });
-
+                this.$router.push({ path: `/debt/${this.debt.id}` });
             } catch (error) {
-                EventBus.errorMessage = 'Failed to update debt! - ' + error.message;
                 console.error("Error updating debt:", error.message);
                 this.$router.push({ path: '/' });
             }
