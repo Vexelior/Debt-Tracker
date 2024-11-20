@@ -20,7 +20,7 @@
                     <img :src="debt.image" class="card-img-top" alt="Creditor logo" />
                   </div>
                   <p class="card-text mt-2">
-                    <strong>Balance:</strong> {{ formattedAmount(debt.previousAmount) }}<br>
+                    <strong>Balance:</strong> {{ debt.previousAmount.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}<br>
                   </p>
                 </div>
               </div>

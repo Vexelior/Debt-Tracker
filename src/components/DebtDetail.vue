@@ -9,10 +9,10 @@
             <div class="card-body">
               <h5 class="card-title">{{ debt.creditor }}</h5>
               <p class="card-text">
-                <strong>Original Balance:</strong> {{ formattedAmount(debt.amount) }}<br>
+                <strong>Original Balance:</strong> {{ debt.amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}<br>
               </p>
               <p class="card-text">
-                <strong>Remaining Balance:</strong> {{ formattedAmount(debt.previousAmount) }}<br>
+                <strong>Remaining Balance:</strong> {{ debt.previousAmount.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}<br>
               </p>
               <p class="card-text">
                 <strong>Type:</strong> {{ debt.type }}
