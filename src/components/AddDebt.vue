@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>Add Debt</h1>
+    <h1 class="my-4">New Debt</h1>
     <form @submit.prevent="addDebt">
       <div class="mb-3">
         <label for="creditor" class="form-label">Creditor</label>
@@ -12,8 +12,8 @@
           required />
       </div>
       <div class="mb-3">
-        <label for="yype" class="form-label">Debt Type</label>
-        <select id="yype" v-model="type" class="form-select" required>
+        <label for="type" class="form-label">Debt Type</label>
+        <select id="type" v-model="type" class="form-select" required>
           <option value="Credit Card">Credit Card</option>
           <option value="Loan">Loan</option>
           <option value="Other">Other</option>
@@ -28,7 +28,7 @@
         <input id="image" type="file" ref="image" class="form-control" accept="image/*" />
       </div>
       <div class="d-flex justify-content-start">
-        <button type="submit" class="btn btn-primary me-2">Add Debt</button>
+        <button type="submit" class="btn btn-primary me-2">Submit</button>
         <router-link to="/" class="btn btn-secondary">Back</router-link>
       </div>
     </form>

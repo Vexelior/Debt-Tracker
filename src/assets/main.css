@@ -174,6 +174,62 @@ p {
     overflow-y: auto;
 }
 
+.nav-tabs .nav-link.active {
+    background-color: var(--black) !important;
+    color: var(--quaternary) !important;
+}
+
+.nav-tabs .nav-link {
+    color: var(--primary) !important;
+}
+
+.nav-tabs .nav-link:hover {
+    color: var(--secondary) !important;
+}
+
+form input[type="file"] {
+    color: white;
+    background-color: var(--primary);
+}
+
+form input[type="file"]:hover {
+    color: white;
+    background-color: var(--secondary);
+}
+
+form input[type="file"]:focus {
+    color: white;
+    background-color: var(--secondary);
+    box-shadow: none !important;
+}
+
+form {
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    padding: 2rem !important;
+    background-color: var(--quaternary) !important;
+    border-radius: 10px !important;
+}
+
+form input[type="text"]:focus,
+form input[type="number"]:focus,
+form select:focus,
+form textarea:focus {
+    box-shadow: 0 0 0 1px var(--secondary) !important;
+    border: 1px solid var(--secondary) !important;
+    outline: none !important;
+}
+
+form textarea.form-control:focus {
+    box-shadow: 0 0 0 1px var(--secondary) !important;
+    border: 1px solid var(--secondary) !important;
+}
+
+/*change option hover background and text color in select*/
+.option-hover {
+    background: var(--primary) !important;
+    color: var(--quaternary) !important;
+}
+
 /* Footer */
 footer {
     background-color: var(--primary) !important;

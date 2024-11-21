@@ -9,9 +9,10 @@
   </div>
   <div v-else>
     <div class="container">
+      <h1 class="my-4">Debts</h1>
       <div v-if="debts.length > 0">
         <div class="row">
-          <div v-for="debt in debts" :key="debt.id" class="col-md-4 mb-4 mt-4">
+          <div v-for="debt in debts" :key="debt.id" class="col-md-4">
             <router-link :to="`/debt/${debt.id}`">
               <div class="card h-100" title="Click to view details">
                 <div class="card-body">

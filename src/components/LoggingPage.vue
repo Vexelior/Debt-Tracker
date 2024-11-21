@@ -8,10 +8,10 @@
     </div>
   </div>
   <div v-else class="container">
-    <h1>Logs</h1>
+    <h1 class="my-4">Logs</h1>
     <div v-if="logs.length > 0">
       <div class="row scrollable-list-large">
-        <div class="col-md-12 mb-4 mt-4">
+        <div class="col-md-12">
           <div class="table-responsive">
             <table class="table table-bordered">
               <thead>

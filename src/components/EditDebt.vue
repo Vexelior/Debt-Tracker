@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <h2 class="my-4">Edit Debt</h2>
+        <h1 class="my-4">Edit Debt</h1>
         <div v-if="debt">
             <form @submit.prevent="updateDebt">
                 <div class="mb-3">
@@ -85,7 +85,6 @@ export default {
             try {
                 const response = await axios.get(`${DEBT_CONTROLLER}/${debtId}`);
                 this.debt = response.data;
-                this.originalAmount = this.debt.amount;  // Store original debt amount
             } catch (error) {
                 console.error("Error fetching debt details:", error);
             }

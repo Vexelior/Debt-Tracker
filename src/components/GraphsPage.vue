@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>Graphs</h1>
+    <h1 class="my-4">Graphs</h1>
     <div v-if="loading">
       <div class="text-center mt-5 col-md-6 m-auto">
         <div class="spinner-border text-primary" role="status">
@@ -15,7 +15,7 @@
       </div>
     </div>
     <div v-else-if="debts.length > 0">
-      <div class="row mt-5">
+      <div class="row">
         <div class="col-md-6">
           <h3 class="mb-2 text-center text-underline"><u>Debt Distribution by Creditor</u></h3>
           <canvas id="pieChart" width="400" height="400"></canvas>
