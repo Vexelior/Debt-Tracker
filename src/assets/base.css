@@ -10,7 +10,7 @@
 
 @font-face {
   font-family: 'Maven';
-  src: url('./fonts/Maven.otf') format('opentype');
+  src: url('./fonts/Maven.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }

@@ -9,62 +9,77 @@ import EditDebt from '../components/EditDebt.vue';
 import GraphsPage from '../components/GraphsPage.vue';
 import NotFound from '../components/NotFound.vue';
 import LoggingPage from '../components/LoggingPage.vue';
+import RegisterPage from '../components/RegisterAccount.vue';
+import LoginPage from '../components/LoginAccount.vue';
 
 const routes = [
   {
     path: '/',
     name: 'home',
     component: DebtList,
-    meta: { title: 'Home' }
+    meta: { title: 'Home', requiresAuth: true }
   },
   {
     path: '/add-debt',
     name: 'add-debt',
     component: AddDebt,
-    meta: { title: 'Add' }
+    meta: { title: 'Add', requiresAuth: true  }
   },
   {
     path: '/debt/:id', 
     name: 'debt-detail',
     component: DebtDetail,
     props: true, 
-    meta: { title: 'Detail' }
+    meta: { title: 'Detail', requiresAuth: true  }
   },
   {
     path: '/edit-debt/:id',
     name: 'edit-debt',
     component: EditDebt,
     props: true,
-    meta: { title: 'Edit'},
+    meta: { title: 'Edit', requiresAuth: true },
   },
   {
     path: '/graphs',
     name: 'GraphsPage',
     component: GraphsPage,
-    meta: {
-      title: 'Graph',
-    },
+    meta: { title: 'Graph', requiresAuth: true },
   },
   {
     path: '/logging',
     name: 'LoggingPage',
     component: LoggingPage,
-    meta: {
-      title: 'Logging',
-    },
+    meta: { title: 'Logging', requiresAuth: true },
   },
   {
-    path: '/*',
+    path: '/register',
+    name: 'RegisterPage',
+    component: RegisterPage,
+    meta: { title: 'Register' },
+  },
+  {
+    path: '/login',
+    name: 'LoginPage',
+    component: LoginPage,
+    meta: { title: 'Login' },
+  },
+  {
+    path: '/:catchAll(.*)',
     component: NotFound,
+    meta: { title: '404 Not Found' },
   }
 ];
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(),
   routes,
 });
 
 router.beforeEach((to, from, next) => {
+  const isAuthenticated = localStorage.getItem('token');
+  if (to.meta.requiresAuth && !isAuthenticated) {
+    next({ path: '/login', query: { redirect: to.fullPath } });
+  }
   document.title = to.meta.title;
   next();
 });

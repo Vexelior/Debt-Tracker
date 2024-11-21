@@ -1,14 +1,26 @@
 <template>
-    <div class="not-found d-flex flex-column align-items-center justify-content-center text-center">
+    <div class="not-found d-flex flex-column align-items-center  text-center">
       <h1 class="display-1 text-primary">404</h1>
       <p class="lead text-secondary">Oops! The page you're looking for doesn't exist.</p>
-      <router-link to="/" class="btn btn-primary mt-3">Go Back Home</router-link>
+      <p id="counter"></p>
     </div>
   </template>
   
   <script>
   export default {
     name: "NotFound",
+    mounted() {
+      let count = 5;
+      const counter = document.getElementById("counter");
+      const interval = setInterval(() => {
+        counter.textContent = `Redirecting in ${count} second(s)...`;
+        count--;
+        if (count < 0) {
+          clearInterval(interval);
+          this.$router.push("/");
+        }
+      }, 1000);
+    },
   };
   </script>
   
