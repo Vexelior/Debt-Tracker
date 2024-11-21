@@ -31,16 +31,18 @@ export default {
       message: null,
     };
   },
+  watch: {
+    '$route.query': {
+      handler: 'checkRouteQuery',
+      immediate: true,
+    },
+  },
   created() {
-    if (this.$route.query.registered) {
-      this.message = 'Registration successful. You can now log in.';
-      setTimeout(() => {
-        this.message = null;
-      }, 5000);
-    }
-    if (this.$route.query.redirect) {
-      this.error = 'You must be logged in to view that page.';
-    }
+    this.checkRouteQuery();
+  },
+  beforeRouteUpdate(to, from, next) {
+    this.checkRouteQuery();
+    next();
   },
   methods: {
     async login() {
@@ -58,6 +60,21 @@ export default {
         setTimeout(() => {
           this.error = null;
         }, 5000);
+      }
+    },
+    checkRouteQuery() {
+      if (this.$route.query.registered) {
+        this.message = 'Registration successful. You can now log in.';
+        setTimeout(() => {
+          this.message = null;
+        }, 5000);
+      } else {
+        this.message = null;
+      }
+      if (this.$route.query.redirect) {
+        this.error = 'You must be logged in to view that page.';
+      } else {
+        this.error = null;
       }
     },
   },
