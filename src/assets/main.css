@@ -251,17 +251,17 @@ form textarea.form-control:focus {
     border: 1px solid var(--secondary) !important;
 }
 
-/*change option hover background and text color in select*/
-.option-hover {
-    background: var(--primary) !important;
-    color: var(--quaternary) !important;
-}
-
 canvas {
     background-color: var(--quaternary) !important;
     box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1) !important;
     border-radius: 10px !important;
     padding: 3rem !important;
+    width: 100% !important;
+    height: auto !important;
+}
+
+.card {
+    margin-bottom: 3rem !important;
 }
 
 @media (max-width: 768px) {

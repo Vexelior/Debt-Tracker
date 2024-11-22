@@ -40,7 +40,7 @@ export default {
                     email: this.email,
                     password: this.password,
                 });
-                this.$router.push('/login?registered=true');
+                this.$router.push('/Debt-Tracker/login?registered=true');
             } catch (error) {
                 this.error = error.response?.data?.message || 'An error occurred.';
                 document.querySelector('button[type="submit"]').disabled = false;
