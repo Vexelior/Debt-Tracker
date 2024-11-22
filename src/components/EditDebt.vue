@@ -94,8 +94,7 @@ export default {
                 if (this.$refs.image.files[0]) {
                     this.debt.image = await this.convertImageToBase64(this.$refs.image.files[0]);
                 }
-                const debtId = this.$route.params.id;
-                await axios.put(`${DEBT_CONTROLLER}/${debtId}`, this.debt, this.paidAmount);
+                await axios.put(`${DEBT_CONTROLLER}/${this.debt.id}`, this.debt);
                 this.$router.push({ path: `/debt/${this.debt.id}` });
             } catch (error) {
                 console.error("Error updating debt:", error.message);

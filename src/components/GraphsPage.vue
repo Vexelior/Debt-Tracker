@@ -17,11 +17,11 @@
     <div v-else-if="debts.length > 0">
       <div class="row">
         <div class="col-md-6">
-          <h3 class="mb-2 text-center text-underline"><u>Debt Distribution by Creditor</u></h3>
+          <h3 class="mb-2 text-center text-underline">Debt Distribution by Creditor</h3>
           <canvas id="pieChart" width="400" height="400"></canvas>
         </div>
-        <div class="col-md-6">
-          <h3 class="mb-2 text-center"><u>Debt Amounts by Creditor</u></h3>
+        <div class="col-md-6 mb-5">
+          <h3 class="mb-2 text-center">Debt Amounts by Creditor</h3>
           <canvas id="barChart" width="400" height="400"></canvas>
         </div>
       </div>

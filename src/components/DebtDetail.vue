@@ -4,13 +4,20 @@
     <div v-if="isDebt">
       <ul class="nav nav-tabs mt-3" id="debtTabs" role="tablist">
         <li class="nav-item" role="presentation">
-          <button class="nav-link active" id="details-tab" data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab" aria-controls="details" aria-selected="true">Details</button>
+          <button class="nav-link active" id="details-tab" data-bs-toggle="tab" data-bs-target="#details" type="button"
+            role="tab" aria-controls="details" aria-selected="true">Details</button>
         </li>
         <li class="nav-item" role="presentation">
-          <button class="nav-link" id="previous-amounts-tab" data-bs-toggle="tab" data-bs-target="#previous-amounts" type="button" role="tab" aria-controls="previous-amounts" aria-selected="false">Previous Amounts</button>
+          <button class="nav-link" id="payments-tab" data-bs-toggle="tab" data-bs-target="#payments"
+            type="button" role="tab" aria-controls="payments" aria-selected="true">Payments</button>
         </li>
         <li class="nav-item" role="presentation">
-          <button class="nav-link" id="history-tab" data-bs-toggle="tab" data-bs-target="#history" type="button" role="tab" aria-controls="history" aria-selected="false">History</button>
+          <button class="nav-link" id="previous-amounts-tab" data-bs-toggle="tab" data-bs-target="#previous-amounts"
+            type="button" role="tab" aria-controls="previous-amounts" aria-selected="false">Previous Amounts</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="history-tab" data-bs-toggle="tab" data-bs-target="#history" type="button"
+            role="tab" aria-controls="history" aria-selected="false">History</button>
         </li>
       </ul>
       <div class="tab-content" id="debtTabsContent">
@@ -20,12 +27,21 @@
               <div v-if="debt" class="card">
                 <h1 class="card-header">Details</h1>
                 <div class="card-body">
-                  <h5 class="card-title">{{ debt.creditor }}</h5>
+                  <div class="debt-detail d-flex align-items-center">
+                    <h5 class="card-title me-2">{{ debt.creditor }}</h5>
+                    <span v-if="debt.percent > 0" class="badge bg-danger">+{{ debt.percentageChange }}%</span>
+                    <span v-else class="badge bg-success">{{ debt.percentageChange }}%</span>
+                  </div>
                   <p class="card-text">
-                    <strong>Original Balance:</strong> {{ debt.amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}<br>
+                    <strong>Original Balance:</strong> {{ debt.amount.toLocaleString('en-US', {
+                      style: 'currency',
+                      currency: 'USD'
+                    }) }}<br>
                   </p>
                   <p class="card-text">
-                    <strong>Remaining Balance:</strong> {{ debt.remainingAmount.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}<br>
+                    <strong>Remaining Balance:</strong> {{ debt.remainingAmount.toLocaleString('en-US', {
+                      style: 'currency', currency: 'USD'
+                    }) }}<br>
                   </p>
                   <p class="card-text">
                     <strong>Type:</strong> {{ debt.type }}
@@ -40,6 +56,7 @@
                     <strong>Last Edit:</strong> {{ formattedDate(debt.dateEdited) }}
                   </p>
                   <router-link :to="`/edit-debt/${debt.id}`" class="btn btn-primary btn-sm me-2">Edit</router-link>
+                  <router-link :to="`/add-payment/${debt.id}`" class="btn btn-info btn-sm">Submit Payment</router-link>
                 </div>
               </div>
             </div>
@@ -104,6 +121,30 @@
             </div>
           </div>
         </div>
+        <div class="tab-pane fade" id="payments" role="tabpanel" aria-labelledby="payments-tab">
+          <div class="row">
+            <div class="col">
+              <div class="card">
+                <h1 class="card-header">Payments</h1>
+                <div class="card-body">
+                  <div v-if="payments.length === 0">
+                    <span class="list-group-item">No payments available.</span>
+                  </div>
+                  <div v-else>
+                    <ul class="list-group scrollable-list">
+                      <li v-for="payment in payments" :key="payment.id" class="list-group-item">
+                        <div class="d-flex justify-content-between">
+                          <span>{{ formattedDate(payment.date) }}</span>
+                          <span>{{ formattedAmount(payment.amount) }}</span>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div v-else>
@@ -119,14 +160,15 @@
 
 <script>
 import axios from 'axios';
-import { DEBT_CONTROLLER } from '../constants.js';
-import { DEBT_HISTORY_CONTROLLER, DEBT_PREVIOUS_AMOUNT } from '../constants.js';
+import { DEBT_CONTROLLER, DEBT_HISTORY_CONTROLLER, DEBT_PREVIOUS_AMOUNT, PAYMENT_CONTROLLER } from '../constants.js';
+
 export default {
   data() {
     return {
       debt: null,
       debtHistory: null,
       debtPreviousAmounts: null,
+      payments: [],
       isDebt: false,
     };
   },
@@ -136,9 +178,9 @@ export default {
       await this.fetchDebtDetails(debtId);
       await this.fetchDebtHistory(debtId);
       await this.fetchPreviousDebt(debtId);
+      await this.fetchPayments(debtId);
       this.isDebt = true;
-    }
-    catch (error) {
+    } catch (error) {
       console.error("Error fetching debt details:", error);
     }
   },
@@ -168,16 +210,14 @@ export default {
         console.error("Error fetching previous debt amount:", error);
       }
     },
-    async renameProperties(debtHistory) {
-      const renamedHistory = debtHistory.map((history) => {
-        return {
-          _id: history._id,
-          description: history.description,
-          percentageChange: history.percentageChange
-        };
-      });
-      return renamedHistory;
-    }
+    async fetchPayments(debtId) {
+      try {
+        const response = await axios.get(`${PAYMENT_CONTROLLER}/GetPayments/${debtId}`);
+        this.payments = response.data;
+      } catch (error) {
+        console.error("Error fetching payments:", error);
+      }
+    },
   },
   computed: {
     formattedDate() {

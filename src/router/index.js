@@ -11,6 +11,7 @@ import NotFound from '../components/NotFound.vue';
 import LoggingPage from '../components/LoggingPage.vue';
 import RegisterPage from '../components/RegisterAccount.vue';
 import LoginPage from '../components/LoginAccount.vue';
+import AddPayment from '../components/AddPayment.vue';
 
 const routes = [
   {
@@ -62,6 +63,13 @@ const routes = [
     name: 'LoginPage',
     component: LoginPage,
     meta: { title: 'Login' },
+  },
+  {
+    path: '/add-payment/:id',
+    name: 'add-payment',
+    component: AddPayment,
+    props: true,
+    meta: { title: 'Add Payment', requiresAuth: true },
   },
   {
     path: '/:catchAll(.*)',
