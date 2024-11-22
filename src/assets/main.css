@@ -257,6 +257,21 @@ form textarea.form-control:focus {
     color: var(--quaternary) !important;
 }
 
+canvas {
+    background-color: var(--quaternary) !important;
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1) !important;
+    border-radius: 10px !important;
+    padding: 3rem !important;
+}
+
+@media (max-width: 768px) {
+    canvas {
+        margin-top: 1rem !important;
+        margin-bottom: 2rem !important;
+        padding: 1rem !important;
+    }
+}
+
 /* Footer */
 footer {
     background-color: var(--primary) !important;
