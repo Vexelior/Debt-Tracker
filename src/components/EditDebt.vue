@@ -29,7 +29,7 @@
                     <input id="image" type="file" ref="image" class="form-control" accept="image/*" />
                 </div>
                 <button type="submit" class="btn btn-primary">Save</button>
-                <router-link to="/" class="btn btn-secondary ms-2">Cancel</router-link>
+                <router-link to="/Debt-Tracker/" class="btn btn-secondary ms-2">Cancel</router-link>
                 <button type="button" class="btn btn-danger ms-2 float-end" @click="showDeleteModal">Delete</button>
             </form>
 
@@ -95,7 +95,7 @@ export default {
                     this.debt.image = await this.convertImageToBase64(this.$refs.image.files[0]);
                 }
                 await axios.put(`${DEBT_CONTROLLER}/${this.debt.id}`, this.debt);
-                this.$router.push({ path: `/debt/${this.debt.id}` });
+                this.$router.push({ path: `/Debt-Tracker/debt/${this.debt.id}` });
             } catch (error) {
                 console.error("Error updating debt:", error.message);
                 this.$router.push({ path: '/' });

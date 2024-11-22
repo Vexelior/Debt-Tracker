@@ -15,7 +15,7 @@
                     letter, one lowercase letter, one number, and one special character.</small>
             </div>
             <button class="btn btn-primary mt-2" type="submit">Register</button>
-            <p class="mt-5">Already have an account? <router-link to="/login">Login</router-link></p>
+            <p class="mt-5">Already have an account? <router-link to="/Debt-Tracker/login">Login</router-link></p>
         </form>
     </div>
 </template>

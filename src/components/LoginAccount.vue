@@ -13,7 +13,7 @@
         <input class="form-control" v-model="password" type="password" id="password" required />
       </div>
       <button class="btn btn-primary mt-2" type="submit">Log in</button>
-      <p class="mt-5">Don't have an account? <router-link to="/register">Register</router-link></p>
+      <p class="mt-5">Don't have an account? <router-link to="/Debt-Tracker/register">Register</router-link></p>
     </form>
   </div>
 </template>
@@ -52,7 +52,7 @@ export default {
           password: this.password,
         });
         localStorage.setItem('token', response.data.token);
-        this.$router.push(this.$route.query.redirect || '/');
+        this.$router.push(this.$route.query.redirect || '/Debt-Tracker/');
       } catch (error) {
         this.error = error.response?.data?.message || 'An error occurred.';
         document.querySelector('button[type="submit"]').disabled = false;

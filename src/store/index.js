@@ -1,4 +1,3 @@
-// src/store/index.js
 import { createStore } from 'vuex';
 import axios from 'axios';
 
@@ -31,7 +30,6 @@ const store = createStore({
                     commit('setToken', token);
                     commit('setUser', response.data.user);
                 } catch (error) {
-                    console.log(error);
                     commit('setToken', null);
                 }
             } else {

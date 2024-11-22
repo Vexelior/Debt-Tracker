@@ -29,7 +29,7 @@
       </div>
       <div class="d-flex justify-content-start">
         <button type="submit" class="btn btn-primary me-2">Submit</button>
-        <router-link to="/" class="btn btn-secondary">Back</router-link>
+        <router-link to="/Debt-Tracker/" class="btn btn-secondary">Back</router-link>
       </div>
     </form>
   </div>
@@ -64,8 +64,7 @@ export default {
           image: imageFile,
         };
         const response = await axios.post(DEBT_CONTROLLER, payload);
-        console.log('Debt added:', response.data);
-        this.$router.push(`/debt/${response.data.id}`);
+        this.$router.push(`/Debt-Tracker/debt/${response.data.id}`);
       } catch (error) {
         console.error('Error adding debt:', error);
       }

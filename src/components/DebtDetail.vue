@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <router-link to="/" class="btn btn-secondary mt-3">Back</router-link>
+    <router-link to="/Debt-Tracker/" class="btn btn-secondary mt-3">Back</router-link>
     <div v-if="isDebt">
       <ul class="nav nav-tabs mt-3" id="debtTabs" role="tablist">
         <li class="nav-item" role="presentation">
@@ -29,7 +29,8 @@
                 <div class="card-body">
                   <div class="debt-detail d-flex align-items-center">
                     <h5 class="card-title me-2">{{ debt.creditor }}</h5>
-                    <span v-if="debt.percent > 0" class="badge bg-danger">+{{ debt.percentageChange }}%</span>
+                    <span v-if="debt.percentageChange === 0" class="badge bg-secondary">{{ debt.percentageChange }}%</span>
+                    <span v-else-if="debt.percentageChange > 0" class="badge bg-danger">+{{ debt.percentageChange }}%</span>
                     <span v-else class="badge bg-success">{{ debt.percentageChange }}%</span>
                   </div>
                   <p class="card-text">
@@ -55,8 +56,7 @@
                   <p class="mb-3">
                     <strong>Last Edit:</strong> {{ formattedDate(debt.dateEdited) }}
                   </p>
-                  <router-link :to="`/edit-debt/${debt.id}`" class="btn btn-primary btn-sm me-2">Edit</router-link>
-                  <router-link :to="`/add-payment/${debt.id}`" class="btn btn-info btn-sm">Submit Payment</router-link>
+                  <router-link :to="`/Debt-Tracker/edit-debt/${debt.id}`" class="btn btn-primary btn-sm me-2">Edit</router-link>
                 </div>
               </div>
             </div>
@@ -127,6 +127,7 @@
               <div class="card">
                 <h1 class="card-header">Payments</h1>
                 <div class="card-body">
+                  <router-link :to="`/Debt-Tracker/add-payment/${debt.id}`" class="btn btn-info btn-sm mb-3">Submit Payment</router-link>
                   <div v-if="payments.length === 0">
                     <span class="list-group-item">No payments available.</span>
                   </div>
@@ -136,6 +137,7 @@
                         <div class="d-flex justify-content-between">
                           <span>{{ formattedDate(payment.date) }}</span>
                           <span>{{ formattedAmount(payment.amount) }}</span>
+                          <router-link :to="`/Debt-Tracker/edit-payment/${payment.id}`" class="btn btn-primary btn-sm">Edit</router-link>
                         </div>
                       </li>
                     </ul>

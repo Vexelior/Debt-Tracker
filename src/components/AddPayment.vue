@@ -12,6 +12,7 @@
                 <input type="date" class="form-control" id="date" v-model="date" required />
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
+            <router-link :to="'/Debt-Tracker/debt/' + debtId" class="btn btn-secondary ms-2">Cancel</router-link>
         </form>
     </div>
 </template>
@@ -40,9 +41,8 @@ export default {
                     date: this.date,
                     debtId: this.debtId,
                 };
-                console.log('Payment controller:', PAYMENT_CONTROLLER);
                 await axios.post(PAYMENT_CONTROLLER, payload);
-                this.$router.push({ path: `/debt/${this.debtId}` });
+                this.$router.push({ path: `/Debt-Tracker/debt/${this.debtId}` });
             } catch (error) {
                 console.error('Error submitting payment:', error);
             }
