@@ -127,7 +127,7 @@ export default {
             } catch (error) {
                 console.error("Error deleting debt!");
                 EventBus.errorMessage = 'Failed to delete debt! - ' + error.message;
-                this.$router.push({ path: '/' });
+                this.$router.push({ path: '/Debt-Tracker/' });
             }
         },
 

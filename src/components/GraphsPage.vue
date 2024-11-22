@@ -9,12 +9,7 @@
         <p>Loading...</p>
       </div>
     </div>
-    <div v-if="debts.length === 0">
-      <div class="mt-5">
-        No debts found to render graphs.
-      </div>
-    </div>
-    <div v-else-if="debts.length > 0">
+    <div v-if="debts.length > 0">
       <div class="row">
         <div class="col-md-6">
           <h3 class="mb-2 text-center text-underline">Debt Distribution by Creditor</h3>
@@ -25,6 +20,9 @@
           <canvas id="barChart" width="400" height="400"></canvas>
         </div>
       </div>
+    </div>
+    <div v-else class="mt-5">
+      No debts found to display graphs.
     </div>
   </div>
 </template>
