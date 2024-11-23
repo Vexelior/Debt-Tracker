@@ -122,7 +122,7 @@ export default {
                 // Show success message and reset URL
                 EventBus.successMessage = 'Debt deleted successfully!';
                 document.querySelector('.modal-backdrop').remove();
-                this.$router.push({ path: '/' });
+                this.$router.push({ path: '/Debt-Tracker/' });
 
             } catch (error) {
                 console.error("Error deleting debt!");
