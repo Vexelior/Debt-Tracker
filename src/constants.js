@@ -8,3 +8,4 @@ export const LOGGING_CONTROLLER = API_URL + '/Logging';
 export const ACCOUNT_CONTROLLER = API_URL + '/Account';
 export const PAYMENT_CONTROLLER = API_URL + '/Payment';
 export const PREVIOUS_PERCENTAGE_CONTROLLER = API_URL + '/PreviousPercentage';
+export const INTEREST_CHARGE_CONTROLLER = API_URL + '/InterestCharge';

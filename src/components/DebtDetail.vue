@@ -63,8 +63,9 @@
                   <p class="mb-3">
                     <strong>Last Edit:</strong> {{ formattedDate(debt.dateEdited) }}
                   </p>
-                  <router-link :to="`/Debt-Tracker/edit-debt/${debt.id}`"
-                    class="btn btn-primary btn-sm me-2">Edit</router-link>
+                    <router-link :to="`/Debt-Tracker/edit-debt/${debt.id}`" class="btn btn-primary btn-sm me-2">Edit</router-link>
+                    <router-link :to="`/Debt-Tracker/add-payment/${debt.id}`" class="btn btn-info btn-sm me-2">Submit Payment</router-link>
+                    <router-link :to="`/Debt-Tracker/interest-charge/${debt.id}`" class="btn btn-warning btn-sm">Submit Charge</router-link>
                 </div>
               </div>
             </div>
@@ -135,8 +136,6 @@
               <div class="card">
                 <h1 class="card-header">Payments</h1>
                 <div class="card-body">
-                  <router-link :to="`/Debt-Tracker/add-payment/${debt.id}`" class="btn btn-info btn-sm mb-3">Submit
-                    Payment</router-link>
                   <div v-if="payments.length === 0">
                     <span class="list-group-item">No payments available.</span>
                   </div>

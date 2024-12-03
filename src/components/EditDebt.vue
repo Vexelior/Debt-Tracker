@@ -67,7 +67,6 @@
 <script>
 import axios from 'axios';
 import { Modal } from 'bootstrap';
-import { EventBus } from '../EventBus';
 import { DEBT_CONTROLLER } from '../constants.js';
 
 export default {
@@ -119,14 +118,11 @@ export default {
                 const debtId = this.$route.params.id;
                 await axios.delete(`https://localhost:7164/Debt/${debtId}`);
 
-                // Show success message and reset URL
-                EventBus.successMessage = 'Debt deleted successfully!';
                 document.querySelector('.modal-backdrop').remove();
                 this.$router.push({ path: '/Debt-Tracker/' });
 
             } catch (error) {
-                console.error("Error deleting debt!");
-                EventBus.errorMessage = 'Failed to delete debt! - ' + error.message;
+                console.error("Error deleting debt!", error);
                 this.$router.push({ path: '/Debt-Tracker/' });
             }
         },

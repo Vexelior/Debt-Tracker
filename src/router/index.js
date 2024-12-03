@@ -13,6 +13,7 @@ import RegisterPage from '../components/RegisterAccount.vue';
 import LoginPage from '../components/LoginAccount.vue';
 import AddPayment from '../components/AddPayment.vue';
 import EditPayment from '../components/EditPayment.vue';
+import InterestCharge from '../components/InterestCharge.vue';
 
 const routes = [
   {
@@ -78,6 +79,13 @@ const routes = [
     component: EditPayment,
     props: true,
     meta: { title: 'Edit Payment', requiresAuth: true },
+  },
+  {
+    path: '/Debt-Tracker/interest-charge/:id',
+    name: 'interest-charge',
+    component: InterestCharge,
+    props: true,
+    meta: { title: 'Interest Charge', requiresAuth: true },
   },
   {
     path: '/Debt-Tracker/:catchAll(.*)',
