@@ -33,6 +33,9 @@ export default {
             emailError: null,
         };
     },
+    created() {
+        this.checkIfLoggedIn();
+    },
     methods: {
         async register() {
             try {
@@ -48,6 +51,16 @@ export default {
                 setTimeout(() => {
                     this.error = null;
                 }, 5000);
+            }
+        },
+        async checkIfLoggedIn() {
+            try {
+                const token = localStorage.getItem('token');
+                if (token) {
+                    this.$router.push('/Debt-Tracker/');
+                }
+            } catch (error) {
+                console.log(error);
             }
         },
     },
