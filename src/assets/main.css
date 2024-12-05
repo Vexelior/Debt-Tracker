@@ -310,7 +310,37 @@ canvas {
 }
 
 .debt-list-container {
-    padding-bottom: 2rem !important;
+    margin-bottom: 15vh; /* Adjust the value as needed */
+    overflow-x: hidden;
+}
+
+.debt-list-container::-webkit-scrollbar {
+    background-color: var(--primary) !important;
+    width: 10px !important;
+    padding: 0 !important;
+}
+
+.debt-list-container::-webkit-scrollbar-thumb {
+    background-color: var(--primary) !important;
+    border-radius: 10px !important;
+    border: 2px solid var(--dimgray) !important;
+}
+
+.debt-list-container::-webkit-scrollbar-track {
+    background-color: var(--dimgray) !important;
+}
+
+.debt-list-container::-webkit-scrollbar-thumb:hover {
+    background-color: var(--secondary) !important;
+}
+
+.debt-list-container::-webkit-scrollbar-thumb:active {
+    background-color: var(--secondary) !important;
+}
+
+.scrollable {
+    max-height: 100vh;
+    overflow-y: auto;
 }
 
 /* Footer */
@@ -338,9 +368,13 @@ footer {
     }
 
     .nav-tabs .nav-link {
-        max-width: 100px; /* Adjust the width as needed */
+        max-width: 100px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-      }
+    }
+
+    .debt-list-container {
+        margin-bottom: 18vh; /* Adjust the value as needed */
+    }
 }
