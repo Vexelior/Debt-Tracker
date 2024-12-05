@@ -15,7 +15,7 @@
           Add
         </router-link>
       </div>
-      <div v-if="debts.length > 0">
+      <div v-if="debts.length > 0" class="debt-list-container">
         <div class="row">
           <div v-for="debt in debts" :key="debt.id" class="col-md-4 mb-4">
             <router-link :to="`/Debt-Tracker/debt/${debt.id}`">

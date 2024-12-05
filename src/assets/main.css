@@ -309,6 +309,10 @@ canvas {
     font-weight: bold !important;
 }
 
+.debt-list-container {
+    padding-bottom: 2rem !important;
+}
+
 /* Footer */
 footer {
     background-color: var(--primary) !important;
@@ -327,8 +331,16 @@ footer {
         padding: 1rem !important;
     }
 
-    .card {
-        margin-bottom: 3rem !important;
+    .nav-tabs {
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        font-size: 0.8rem !important;
     }
-}
 
+    .nav-tabs .nav-link {
+        max-width: 100px; /* Adjust the width as needed */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+}

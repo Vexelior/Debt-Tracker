@@ -29,7 +29,7 @@
             role="tab" aria-controls="history" aria-selected="false">History</button>
         </li>
       </ul>
-      <div class="tab-content" id="debtTabsContent">
+      <div class="tab-content debt-list-container" id="debtTabsContent">
         <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="details-tab">
           <div class="row">
             <div class="col">
