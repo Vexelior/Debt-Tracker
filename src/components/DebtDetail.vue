@@ -12,6 +12,10 @@
             role="tab" aria-controls="payments" aria-selected="true">Payments</button>
         </li>
         <li class="nav-item" role="presentation">
+          <button class="nav-link" id="charges-tab" data-bs-toggle="tab" data-bs-target="#charges" type="button"
+            role="tab" aria-controls="charges" aria-selected="true">Charges</button>
+        </li>
+        <li class="nav-item" role="presentation">
           <button class="nav-link" id="previous-amounts-tab" data-bs-toggle="tab" data-bs-target="#previous-amounts"
             type="button" role="tab" aria-controls="previous-amounts" aria-selected="false">Previous Amounts</button>
         </li>
@@ -31,41 +35,89 @@
             <div class="col">
               <div v-if="debt" class="card">
                 <h1 class="card-header">Details</h1>
-                <div class="card-body">
-                  <div class="debt-detail d-flex align-items-center">
-                    <h5 class="card-title me-2">{{ debt.creditor }}</h5>
-                    <span v-if="debt.percentageChange === 0" class="badge bg-secondary">{{ debt.percentageChange
-                      }}%</span>
-                    <span v-else-if="debt.percentageChange > 0" class="badge bg-danger">+{{ debt.percentageChange
-                      }}%</span>
-                    <span v-else class="badge bg-success">{{ debt.percentageChange }}%</span>
+                <div class="row">
+                  <div class="dropdown d-flex justify-content-end pe-4 pt-3">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                      data-bs-toggle="dropdown" aria-expanded="false">
+                      Options
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <li>
+                        <router-link :to="`/Debt-Tracker/edit-debt/${debt.id}`" class="dropdown-item">Edit</router-link>
+                      </li>
+                      <li>
+                        <router-link :to="`/Debt-Tracker/add-payment/${debt.id}`" class="dropdown-item">Add
+                          Payment</router-link>
+                      </li>
+                      <li>
+                        <router-link :to="`/Debt-Tracker/add-interest-charge/${debt.id}`" class="dropdown-item">Add
+                          Interest Charge</router-link>
+                      </li>
+                    </ul>
                   </div>
-                  <p class="card-text">
-                    <strong>Original Balance:</strong> {{ debt.amount.toLocaleString('en-US', {
-                      style: 'currency',
-                      currency: 'USD'
-                    }) }}<br>
-                  </p>
-                  <p class="card-text">
-                    <strong>Remaining Balance:</strong> {{ debt.remainingAmount.toLocaleString('en-US', {
-                      style: 'currency', currency: 'USD'
-                    }) }}<br>
-                  </p>
-                  <p class="card-text">
-                    <strong>Type:</strong> {{ debt.type }}
-                  </p>
-                  <p class="card-text">
-                    <strong>Notes:</strong> {{ debt.notes ? debt.notes : 'No current note.' }}
-                  </p>
-                  <p class="mb-3">
-                    <strong>Date Added:</strong> {{ formattedDate(debt.dateAdded) }}
-                  </p>
-                  <p class="mb-3">
-                    <strong>Last Edit:</strong> {{ formattedDate(debt.dateEdited) }}
-                  </p>
-                    <router-link :to="`/Debt-Tracker/edit-debt/${debt.id}`" class="btn btn-primary btn-sm me-2">Edit</router-link>
-                    <router-link :to="`/Debt-Tracker/add-payment/${debt.id}`" class="btn btn-info btn-sm me-2">Submit Payment</router-link>
-                    <router-link :to="`/Debt-Tracker/interest-charge/${debt.id}`" class="btn btn-warning btn-sm">Submit Charge</router-link>
+
+                  <div class="col-md-6">
+                    <div class="card-body">
+                      <div class="debt-detail d-flex align-items-center">
+                        <h5 class="card-title me-2">{{ debt.creditor }}</h5>
+                        <span v-if="debt.percentageChange === 0" class="badge bg-secondary">{{ debt.percentageChange
+                          }}%</span>
+                        <span v-else-if="debt.percentageChange > 0" class="badge bg-danger">+{{ debt.percentageChange
+                          }}%</span>
+                        <span v-else class="badge bg-success">{{ debt.percentageChange }}%</span>
+                      </div>
+                      <table class="table table-hover mt-3 debt-details-table">
+                        <tbody>
+                          <tr>
+                            <th>Original Balance:</th>
+                            <td>{{ debt.amount.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}</td>
+                          </tr>
+                          <tr>
+                            <th>Remaining Balance:</th>
+                            <td>{{ debt.remainingAmount.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+                              }}</td>
+                          </tr>
+                          <tr>
+                            <th>Interest:</th>
+                            <td>{{ debt.interestRate }}%</td>
+                          </tr>
+                          <tr>
+                            <th>Last Payment:</th>
+                            <td>{{ debt.lastPayment.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}
+                            </td>
+                          </tr>
+                          <tr>
+                            <th>Last Payment Date:</th>
+                            <td>{{ formattedDate(debt.lastPaymentDate) }}</td>
+                          </tr>
+                          <tr>
+                            <th>Type:</th>
+                            <td>{{ debt.type }}</td>
+                          </tr>
+                          <tr>
+                            <th>Notes:</th>
+                            <td>{{ debt.notes ? debt.notes : 'No current note.' }}</td>
+                          </tr>
+                          <tr>
+                            <th>Date Added:</th>
+                            <td>{{ formattedDate(debt.dateAdded) }}</td>
+                          </tr>
+                          <tr>
+                            <th>Last Edit:</th>
+                            <td>{{ formattedDate(debt.dateEdited) }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="card-body">
+                      <img v-if="debt.image" :src="debt.image" alt="Debt Image" class="img img-fluid">
+                      <div v-else class="text-center">
+                        <p>No image available.</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -84,7 +136,7 @@
                     <ul class="list-group">
                       <li v-for="amount in debtPreviousAmounts" :key="amount.id" class="list-group-item">
                         <div class="d-flex justify-content-between">
-                          <span>{{ formattedAmount(amount.previousAmount) }}</span>
+                          <span>{{ formattedAmount(amount.amount) }}</span>
                           <span>{{ formattedDate(amount.dateAdded) }}</span>
                           <span v-if="amount.percentageChange > 0" class="badge text-bg-danger">
                             {{ formattedPercentage(amount.percentageChange) }}
@@ -171,6 +223,43 @@
             </div>
           </div>
         </div>
+        <div class="tab-pane fade" id="charges" role="tabpanel" aria-labelledby="charges-tab">
+          <div class="row">
+            <div class="col">
+              <div class="card">
+                <h1 class="card-header">Charges</h1>
+                <div class="card-body">
+                  <div v-if="charges.length === 0">
+                    <span class="list-group-item">No charges available.</span>
+                  </div>
+                  <div class="scrollable-list" v-else>
+                    <table class="table table-hover mt-3">
+                      <thead>
+                        <tr>
+                          <th scope="col">Description</th>
+                          <th scope="col">Date</th>
+                          <th scope="col">Amount</th>
+                          <th scope="col">Options</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                          <tr v-for="charge in charges" :key="charge.id">
+                            <td>{{ charge.description }}</td>
+                            <td>{{ formattedDate(charge.date) }}</td>
+                            <td>{{ formattedAmount(charge.amount) }}</td>
+                            <td>
+                              <router-link :to="`/Debt-Tracker/edit-interest-charge/${charge.id}`"
+                                class="btn btn-primary btn-sm">Edit</router-link>
+                            </td>
+                          </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div v-else>
@@ -186,7 +275,14 @@
 
 <script>
 import axios from 'axios';
-import { DEBT_CONTROLLER, DEBT_HISTORY_CONTROLLER, DEBT_PREVIOUS_AMOUNT, PAYMENT_CONTROLLER, PREVIOUS_PERCENTAGE_CONTROLLER } from '../constants.js';
+import {
+  DEBT_CONTROLLER,
+  DEBT_HISTORY_CONTROLLER,
+  DEBT_PREVIOUS_AMOUNT,
+  PAYMENT_CONTROLLER,
+  PREVIOUS_PERCENTAGE_CONTROLLER,
+  INTEREST_CHARGE_CONTROLLER
+} from '../constants.js';
 import { Chart } from 'chart.js';
 
 export default {
@@ -198,6 +294,7 @@ export default {
       payments: [],
       isDebt: false,
       previousPercentages: [],
+      charges: [],
     };
   },
   async created() {
@@ -208,6 +305,7 @@ export default {
       await this.fetchPreviousDebt(debtId);
       await this.fetchPayments(debtId);
       await this.fetchPreviousPercentages(debtId);
+      await this.fetchCharges(debtId);
       this.isDebt = true;
       await this.$nextTick();
     } catch (error) {
@@ -256,6 +354,14 @@ export default {
         this.previousPercentages = response.data;
       } catch (error) {
         console.error("Error fetching previous percentages:", error);
+      }
+    },
+    async fetchCharges(debtId) {
+      try {
+        const response = await axios.get(`${INTEREST_CHARGE_CONTROLLER}/${debtId}`);
+        this.charges = response.data;
+      } catch (error) {
+        console.error("Error fetching charges:", error);
       }
     },
     async renderChart() {

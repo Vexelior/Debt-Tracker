@@ -14,6 +14,7 @@ import LoginPage from '../components/LoginAccount.vue';
 import AddPayment from '../components/AddPayment.vue';
 import EditPayment from '../components/EditPayment.vue';
 import InterestCharge from '../components/InterestCharge.vue';
+import EditInterestCharge from '../components/EditInterestCharge.vue';
 
 const routes = [
   {
@@ -81,9 +82,16 @@ const routes = [
     meta: { title: 'Edit Payment', requiresAuth: true },
   },
   {
-    path: '/Debt-Tracker/interest-charge/:id',
+    path: '/Debt-Tracker/add-interest-charge/:id',
     name: 'interest-charge',
     component: InterestCharge,
+    props: true,
+    meta: { title: 'Interest Charge', requiresAuth: true },
+  },
+  {
+    path: '/Debt-Tracker/edit-interest-charge/:id',
+    name: 'edit-interest-charge',
+    component: EditInterestCharge,
     props: true,
     meta: { title: 'Interest Charge', requiresAuth: true },
   },

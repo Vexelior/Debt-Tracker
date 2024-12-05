@@ -29,7 +29,7 @@
                     <input id="image" type="file" ref="image" class="form-control" accept="image/*" />
                 </div>
                 <button type="submit" class="btn btn-primary">Save</button>
-                <router-link to="/Debt-Tracker/" class="btn btn-secondary ms-2">Cancel</router-link>
+                <router-link :to="'/Debt-Tracker/debt/' + debt.id" class="btn btn-secondary ms-2">Cancel</router-link>
                 <button type="button" class="btn btn-danger ms-2 float-end" @click="showDeleteModal">Delete</button>
             </form>
 
