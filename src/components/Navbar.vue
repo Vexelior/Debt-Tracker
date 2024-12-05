@@ -12,9 +12,6 @@
             <router-link class="nav-link" to="/Debt-Tracker/">Home</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/Debt-Tracker/add-debt">Add</router-link>
-          </li>
-          <li class="nav-item">
             <router-link class="nav-link" to="/Debt-Tracker/graphs">Graphs</router-link>
           </li>
           <li class="nav-item">

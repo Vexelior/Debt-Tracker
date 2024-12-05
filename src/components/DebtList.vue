@@ -9,12 +9,17 @@
   </div>
   <div v-else>
     <div class="container">
-      <h1 class="my-4">Debts</h1>
+      <div class="d-flex justify-content-between align-items-center">
+        <h1 class="my-4">Debts</h1>
+        <router-link class="btn btn-primary" to="/Debt-Tracker/add-debt">
+          Add
+        </router-link>
+      </div>
       <div v-if="debts.length > 0">
         <div class="row">
           <div v-for="debt in debts" :key="debt.id" class="col-md-4 mb-4">
             <router-link :to="`/Debt-Tracker/debt/${debt.id}`">
-              <div class="card h-100" title="Click to view details">
+              <div class="card h-100">
                 <div class="card-body">
                   <h5 class="card-title">{{ debt.creditor }}</h5>
                   <div v-if="debt.image != null">
