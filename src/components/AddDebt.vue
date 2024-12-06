@@ -4,7 +4,7 @@
     <form @submit.prevent="addDebt">
       <div class="mb-3">
         <label for="creditor" class="form-label">Creditor</label>
-        <input id="creditor" v-model="creditor" type="text" class="form-control" placeholder="Creditor Name" required />
+        <input id="creditor" v-model="creditor" type="text" class="form-control" placeholder="Creditor" required />
       </div>
       <div class="mb-3">
         <label for="amount" class="form-label">Amount</label>
@@ -12,8 +12,14 @@
           required />
       </div>
       <div class="mb-3">
+        <label for="interest" class="form-label">Interest</label>
+        <input id="interest" v-model.number="interestRate" type="number" class="form-control" placeholder="Interest" step=".01"
+          required />
+      </div>
+      <div class="mb-3">
         <label for="type" class="form-label">Debt Type</label>
         <select id="type" v-model="type" class="form-select" required>
+          <option value="" disabled>-- Select Type --</option>
           <option value="Credit Card">Credit Card</option>
           <option value="Loan">Loan</option>
           <option value="Other">Other</option>
@@ -47,6 +53,7 @@ export default {
       notes: '',
       type: '',
       image: null,
+      interestRate: null,
     };
   },
   methods: {
@@ -59,6 +66,7 @@ export default {
         const payload = {
           creditor: this.creditor,
           amount: this.amount,
+          interestRate: this.interestRate,
           notes: this.notes,
           type: this.type,
           image: imageFile,

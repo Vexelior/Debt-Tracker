@@ -15,6 +15,7 @@
                 <div class="mb-3">
                     <label for="type" class="form-label">Type</label>
                     <select class="form-select" id="type" v-model="debt.type" required>
+                        <option value="" disabled>-- Select Type --</option>
                         <option value="Credit Card">Credit Card</option>
                         <option value="Loan">Loan</option>
                         <option value="Other">Other</option>
