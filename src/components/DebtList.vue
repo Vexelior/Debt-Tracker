@@ -22,8 +22,8 @@
               <div class="card h-100">
                 <div class="card-body">
                   <h5 class="card-title">{{ debt.creditor }}</h5>
-                  <div v-if="debt.image != null">
-                    <img :src="debt.image" class="card-img-top" alt="Creditor logo" />
+                  <div v-if="debt.imageSource != null">
+                    <img :src="debt.imageSource" class="card-img-top" alt="Creditor logo" />
                   </div>
                   <p class="card-text mt-2">
                     <strong>Balance:</strong> {{ debt.remainingAmount.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) }}<br>

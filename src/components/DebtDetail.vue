@@ -112,7 +112,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="card-body">
-                      <img v-if="debt.image" :src="debt.image" alt="Debt Image" class="img img-fluid">
+                      <img v-if="debt.image" :src="debt.imageSource" alt="Debt Image" class="img img-fluid">
                       <div v-else class="text-center">
                         <p>No image available.</p>
                       </div>
@@ -393,7 +393,11 @@ export default {
   computed: {
     formattedDate() {
       return function (date) {
-        return new Date(date).toLocaleDateString();
+        var newDate = new Date(date).toLocaleDateString();
+        console.log(newDate);
+        if (newDate === '1/1/1') {
+          return 'None.';
+        }
       };
     },
     formattedAmount() {
