@@ -38,28 +38,27 @@
         <label for="notes" class="form-label">Notes</label>
         <textarea id="notes" v-model="notes" class="form-control" placeholder="Notes"></textarea>
       </div>
-
       <p class="text-muted">Select an image from the dropdown menu or upload a new image by clicking the button below.</p>
-
       <div class="mb-3 d-flex justify-content-start">
         <button type="button" class="btn btn-secondary btn-sm" @click="toggleFileInput">
           {{ showFileInput ? 'Hide' : 'Show' }} File Upload
         </button>
       </div>
-
       <div v-if="showFileInput == false" class="mb-3">
         <label for="type" class="form-label">Image</label>
-        <select class="form-select" v-model="image" id="image" required>
+        <select class="form-select" v-model="image" id="image" required @change="onImageChange">
           <option value="" disabled selected>-- Select Type --</option>
           <option v-for="image in allImages" :key="image.id" :value="image.source">{{ image.name }}</option>
         </select>
       </div>
-
       <div v-if="showFileInput" class="d-flex justify-content-start mb-3">
         <button type="button" class="btn btn-primary btn-sm me-2" @click="addImage">Upload</button>
         <div class="form-file w-50">
           <input id="image" ref="image" type="file" class="form-file-input w-100" accept="image/*" required />
         </div>
+      </div>
+      <div class="mb-3">
+        <img v-if="image" :src="image" alt="Selected Image" class="img img-fluid" width="250px" />
       </div>
       <div class="d-flex justify-content-start">
         <button type="submit" class="btn btn-primary me-2">Submit</button>
@@ -152,6 +151,13 @@ export default {
       } catch (error) {
         console.error('Error getting images:', error);
       }
+    },
+    async onImageChange() {
+      const image = this.allImages.find((img) => img.source === this.image);
+      if (image === undefined) {
+        return;
+      }
+      this.image = image.source;
     },
     showError(error) {
       this.error = error;
