@@ -308,6 +308,7 @@ export default {
       await this.fetchCharges(debtId);
       this.isDebt = true;
       await this.$nextTick();
+      console.log(this.debtHistory);
     } catch (error) {
       console.error("Error fetching debt details:", error);
     } finally {
@@ -393,11 +394,7 @@ export default {
   computed: {
     formattedDate() {
       return function (date) {
-        var newDate = new Date(date).toLocaleDateString();
-        console.log(newDate);
-        if (newDate === '1/1/1') {
-          return 'None.';
-        }
+        return new Date(date).toLocaleDateString('en-US');
       };
     },
     formattedAmount() {
