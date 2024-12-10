@@ -308,7 +308,6 @@ export default {
       await this.fetchCharges(debtId);
       this.isDebt = true;
       await this.$nextTick();
-      console.log(this.debtHistory);
     } catch (error) {
       console.error("Error fetching debt details:", error);
     } finally {
