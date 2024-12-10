@@ -35,8 +35,7 @@
             <div class="col">
               <div v-if="debt" class="card">
                 <h1 class="card-header">Details</h1>
-                <div class="row">
-                  <div class="dropdown d-flex justify-content-end pe-4 pt-3">
+                <div class="dropdown pe-4 ps-2 pt-3">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                       data-bs-toggle="dropdown" aria-expanded="false">
                       Options
@@ -55,7 +54,7 @@
                       </li>
                     </ul>
                   </div>
-
+                <div class="row">
                   <div class="col-md-6">
                     <div class="card-body">
                       <div class="debt-detail d-flex align-items-center">
