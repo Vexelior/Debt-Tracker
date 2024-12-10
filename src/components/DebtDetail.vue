@@ -35,7 +35,8 @@
             <div class="col">
               <div v-if="debt" class="card">
                 <h1 class="card-header">Details</h1>
-                <div class="dropdown pe-4 ps-2 pt-3">
+                <div class="d-flex d-inline">
+                  <div class="dropdown pe-4 ps-2 pt-3">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
                       data-bs-toggle="dropdown" aria-expanded="false">
                       Options
@@ -54,6 +55,16 @@
                       </li>
                     </ul>
                   </div>
+                  <p class="text-muted mt-3">Progress:</p>
+                  <div class="progress w-100 mt-4 me-2" role="progressbar" aria-label="Default striped example" aria-valuenow="0"
+                    aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated">
+                      <span class="progressCompletionPercentage">
+                        0%
+                      </span>
+                    </div>
+                  </div>
+                </div>
                 <div class="row">
                   <div class="col-md-6">
                     <div class="card-body">
@@ -242,15 +253,15 @@
                         </tr>
                       </thead>
                       <tbody>
-                          <tr v-for="charge in charges" :key="charge.id">
-                            <td>{{ charge.description }}</td>
-                            <td>{{ formattedDate(charge.date) }}</td>
-                            <td>{{ formattedAmount(charge.amount) }}</td>
-                            <td>
-                              <router-link :to="`/Debt-Tracker/edit-interest-charge/${charge.id}`"
-                                class="btn btn-primary btn-sm">Edit</router-link>
-                            </td>
-                          </tr>
+                        <tr v-for="charge in charges" :key="charge.id">
+                          <td>{{ charge.description }}</td>
+                          <td>{{ formattedDate(charge.date) }}</td>
+                          <td>{{ formattedAmount(charge.amount) }}</td>
+                          <td>
+                            <router-link :to="`/Debt-Tracker/edit-interest-charge/${charge.id}`"
+                              class="btn btn-primary btn-sm">Edit</router-link>
+                          </td>
+                        </tr>
                       </tbody>
                     </table>
                   </div>
@@ -310,6 +321,7 @@ export default {
     } catch (error) {
       console.error("Error fetching debt details:", error);
     } finally {
+      await this.calculateProgressPercentage();
       await this.renderChart();
     }
   },
@@ -363,6 +375,42 @@ export default {
         console.error("Error fetching charges:", error);
       }
     },
+    async calculateProgressPercentage() {
+      const percentage = Math.ceil(this.debt.remainingAmount / this.debt.amount);
+      const progressBar = document.querySelector('.progress-bar');
+      const progressCompletionPercentage = document.querySelector('.progressCompletionPercentage');
+      if (progressBar && progressCompletionPercentage) {
+        progressBar.style.width = `${percentage}%`;
+        progressBar.setAttribute('aria-valuenow', percentage);
+        progressCompletionPercentage.textContent = `${percentage}%`;
+
+        switch (true) {
+          case percentage === 100:
+            progressBar.classList.remove('bg-warning');
+            progressBar.classList.add('bg-success');
+            break;
+          case percentage > 75:
+            progressBar.classList.remove('bg-warning');
+            progressBar.classList.add('bg-success');
+            break;
+          case percentage > 50:
+            progressBar.classList.remove('bg-warning');
+            progressBar.classList.add('bg-info');
+            break;
+          case percentage > 25:
+            progressBar.classList.remove('bg-warning');
+            progressBar.classList.add('bg-warning');
+            break;
+          default:
+            progressBar.classList.remove('bg-warning');
+            progressBar.classList.add('bg-danger');
+            break;
+        }
+
+      } else {
+        console.error('Progress bar not found or text element not found');
+      }
+    },
     async renderChart() {
       const ctx = document.getElementById('percentageChart');
       if (!ctx) {
@@ -407,6 +455,9 @@ export default {
         }
         return '';
       };
+    },
+    roudPercentageToWholeNumber(percentage) {
+      return Math.ceil(percentage);
     },
   },
 };
