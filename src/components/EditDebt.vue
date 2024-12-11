@@ -22,6 +22,11 @@
                         required />
                 </div>
                 <div class="mb-3">
+                    <label for="amount" class="form-label">Interest Rate</label>
+                    <input type="number" class="form-control" id="amount" step=".01" v-model="debt.interestRate"
+                        required />
+                </div>
+                <div class="mb-3">
                     <label for="type" class="form-label">Type</label>
                     <select class="form-select" id="type" v-model="debt.type" required>
                         <option value="" disabled>-- Select Type --</option>
