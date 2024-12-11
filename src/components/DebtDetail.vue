@@ -56,8 +56,8 @@
                     </ul>
                   </div>
                   <p class="text-muted mt-3">Progress:</p>
-                  <div class="progress w-100 mt-4 me-2" role="progressbar" aria-label="Default striped example" aria-valuenow="0"
-                    aria-valuemin="0" aria-valuemax="100">
+                  <div class="progress w-100 mt-4 me-2" role="progressbar" aria-label="Default striped example"
+                    aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
                     <div class="progress-bar progress-bar-striped progress-bar-animated">
                       <span class="progressCompletionPercentage">
                         0%
@@ -376,7 +376,11 @@ export default {
       }
     },
     async calculateProgressPercentage() {
-      const percentage = Math.ceil(this.debt.remainingAmount / this.debt.amount);
+      if (this.debt.remainingAmount === this.debt.amount) {
+        return 0;
+      }
+
+      const percentage = Math.ceil((this.debt.remainingAmount / this.debt.amount) * 100);
       const progressBar = document.querySelector('.progress-bar');
       const progressCompletionPercentage = document.querySelector('.progressCompletionPercentage');
       if (progressBar && progressCompletionPercentage) {
